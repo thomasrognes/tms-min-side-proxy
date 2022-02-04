@@ -21,7 +21,6 @@ spec:
     max: 4
   webproxy: true
   ingresses:
-    - "https://person.nav.no/tms-min-side-proxy"
     - "https://tms-min-side-proxy.intern.nav.no/tms-min-side-proxy"
   resources:
     limits:
