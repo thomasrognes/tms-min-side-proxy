@@ -1,6 +1,6 @@
-package no.nav.tms.template.config
+package no.nav.tms.min.side.proxy.config
 
-import no.nav.tms.template.health.HealthService
+import no.nav.tms.min.side.proxy.health.HealthService
 
 class ApplicationContext {
 

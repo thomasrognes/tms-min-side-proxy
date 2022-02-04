@@ -1,6 +1,6 @@
-package no.nav.tms.template.health
+package no.nav.tms.min.side.proxy.health
 
-import no.nav.tms.template.config.ApplicationContext
+import no.nav.tms.min.side.proxy.config.ApplicationContext
 
 class HealthService(private val applicationContext: ApplicationContext) {
 

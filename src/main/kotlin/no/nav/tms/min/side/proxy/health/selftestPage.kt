@@ -1,12 +1,12 @@
-package no.nav.tms.template.health
+package no.nav.tms.min.side.proxy.health
 
 import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.http.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.html.*
-import no.nav.tms.template.config.Environment
-import no.nav.tms.template.config.HttpClientBuilder
+import no.nav.tms.min.side.proxy.config.Environment
+import no.nav.tms.min.side.proxy.config.HttpClientBuilder
 
 suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = coroutineScope {
 
@@ -21,7 +21,7 @@ suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = co
     })
     {
         head {
-            title { +"Selftest tms-ktor-template" }
+            title { +"Selftest tms-min-side-proxy" }
         }
         body {
             var text = if(hasFailedChecks) {
@@ -39,7 +39,7 @@ suspend fun ApplicationCall.buildSelftestPage(healthService: HealthService) = co
             }
             table {
                 thead {
-                    tr { th { +"SELFTEST tms-ktor-template" } }
+                    tr { th { +"SELFTEST tms-min-side-proxy" } }
                 }
                 tbody {
                     healthChecks.map {

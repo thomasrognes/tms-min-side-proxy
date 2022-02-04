@@ -1,1 +1,1 @@
-rootProject.name = "tms-ktor-template"
+rootProject.name = "tms-min-side-proxy"

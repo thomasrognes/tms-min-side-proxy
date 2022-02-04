@@ -1,4 +1,4 @@
-# tms-ktor-template
+# tms-min-side-proxy
 
 Kan brukes som utgangspunkt for å opprette nye Ktor-apper for Team Min Side.
 
@@ -6,9 +6,9 @@ Kan brukes som utgangspunkt for å opprette nye Ktor-apper for Team Min Side.
 
 ## Tilpass navn
 
-1. Søk etter og erstatt `tms-ktor-template` med det som skal være navnet på den nye appen.
+1. Søk etter og erstatt `tms-min-side-proxy` med det som skal være navnet på den nye appen.
 2. Endre navnet på mappen `src/main/kotlin/no/nav/tms/template` til noe som passer for den nye appen. 
-3. Tilpasse pakkenavnene, søk etter og erstatt `tms.template` med `tms.<ny mappestruktur>`.
+3. Tilpasse pakkenavnene, søk etter og erstatt `tms.min.side.proxy` med `tms.<ny mappestruktur>`.
 
 
 ## Legg til autentisering
@@ -73,10 +73,10 @@ val reporter = InfluxMetricsReporter(sensuConfig)
 Se bruk i [andre prosjekt](https://github.com/navikt/dittnav-brukernotifikasjonbestiller) for referanse.
 
 # Kom i gang
-1. Bygg tms-ktor-template ved å kjøre `gradle build`
+1. Bygg tms-min-side-proxy ved å kjøre `gradle build`
 1. Start appen lokalt ved å kjøre `gradle runServer`
-1. Appen nås på `http://localhost:8101/tms-ktor-template`
-   * F.eks. via `curl http://localhost:8101/tms-ktor-template/internal/isAlive`
+1. Appen nås på `http://localhost:8101/tms-min-side-proxy`
+   * F.eks. via `curl http://localhost:8101/tms-min-side-proxy/internal/isAlive`
 
 # Henvendelser
 

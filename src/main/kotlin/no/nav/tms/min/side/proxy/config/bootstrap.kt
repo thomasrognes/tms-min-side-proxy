@@ -1,4 +1,4 @@
-package no.nav.tms.template.config
+package no.nav.tms.min.side.proxy.config
 
 import io.ktor.application.*
 import io.ktor.client.*
@@ -7,7 +7,7 @@ import io.ktor.http.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.*
-import no.nav.tms.template.health.healthApi
+import no.nav.tms.min.side.proxy.health.healthApi
 
 @KtorExperimentalAPI
 fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()) {
