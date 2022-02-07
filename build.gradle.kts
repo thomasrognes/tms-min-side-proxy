@@ -80,6 +80,8 @@ tasks {
         environment("NAIS_CLUSTER_NAME", "dev-sbs")
         environment("NAIS_NAMESPACE", "personbruker")
 
+        environment("IDPORTEN_WELL_KNOWN_URL", "https://oidc-ver2.difi.no/idporten-oidc-provider/.well-known/openid-configuration")
+        environment("IDPORTEN_CLIENT_ID", "e89006c5-7193-4ca3-8e26-d0990d9d981f")
         main = application.mainClassName
         classpath = sourceSets["main"].runtimeClasspath
     }
