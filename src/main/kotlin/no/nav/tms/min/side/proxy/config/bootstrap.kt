@@ -30,10 +30,8 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
     }
 
     installIdPortenAuth {
-        postLoginRedirectUri = "/post/login"
-        setAsDefault = false
+        setAsDefault = true
         loginLevel = LoginLevel.LEVEL_3
-        enableDefaultProxy = false
     }
 
     routing {
