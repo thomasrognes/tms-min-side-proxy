@@ -8,6 +8,10 @@ metadata:
 spec:
   envFrom:
     - secret: tms-min-side-proxy-secrets
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
   image: {{version}}
   port: 8080
   liveness:
