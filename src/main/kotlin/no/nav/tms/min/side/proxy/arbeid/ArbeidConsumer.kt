@@ -11,7 +11,7 @@ import java.net.URL
 class ArbeidConsumer(
     private val httpClient: HttpClient,
     private val tokenFetcher: TokenFetcher,
-    private val baseUrl: URL,
+    private val baseUrl: String,
 ) {
 
     suspend fun getContent(user: IdportenUser, proxyPath: String?): HttpResponse {
