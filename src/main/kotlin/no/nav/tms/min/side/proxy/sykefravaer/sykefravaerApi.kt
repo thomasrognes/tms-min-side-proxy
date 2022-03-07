@@ -14,14 +14,14 @@ fun Route.sykefraverApi(consumer: SykefravaerConsumer) {
 
     val log = LoggerFactory.getLogger(SykefravaerConsumer::class.java)
 
-    get("/sykefravaer/*") {
-        val endpoint = "sykefravaer/endpoint"
+    get("/sykefravaer/{proxyPath}") {
+        val proxyPath = call.parameters["proxyPath"]
 
         try {
-            val response = consumer.getContent(authenticatedUser)
+            val response = consumer.getContent(authenticatedUser, proxyPath)
             call.respond(response.status, response.readBytes())
         } catch (exception: Exception) {
-            log.warn("Klarte ikke hente data fra endepunktet '$endpoint'. Feilmelding: [${exception.message}]. $authenticatedUser", exception)
+            log.warn("Klarte ikke hente data fra endepunktet '$proxyPath'. Feilmelding: [${exception.message}]. $authenticatedUser", exception)
             call.respond(HttpStatusCode.ServiceUnavailable)
         }
     }

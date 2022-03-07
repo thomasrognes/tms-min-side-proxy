@@ -11,11 +11,12 @@ import java.net.URL
 class DittnavConsumer(
     private val httpClient: HttpClient,
     private val tokenFetcher: TokenFetcher,
-    private val url: URL,
+    private val baseUrl: URL,
 ) {
 
-    suspend fun getContent(user: IdportenUser): HttpResponse {
+    suspend fun getContent(user: IdportenUser,  proxyPath: String?): HttpResponse {
         val accessToken = AccessToken(tokenFetcher.getDittnavToken(user.tokenString))
+        val url = "$baseUrl/$proxyPath"
 
         return httpClient.get(url, accessToken)
     }

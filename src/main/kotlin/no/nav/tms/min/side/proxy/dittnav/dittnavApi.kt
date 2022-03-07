@@ -1,7 +1,5 @@
 package no.nav.tms.min.side.proxy.dittnav
 
-import no.nav.tms.min.side.proxy.arbeid.ArbeidConsumer
-
 import io.ktor.application.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -16,14 +14,14 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
 
     val log = LoggerFactory.getLogger(DittnavConsumer::class.java)
 
-    get("/dittnav/*") {
-        val endpoint = "dittnav/endpoint"
+    get("/dittnav/{proxyPath}") {
+        val proxyPath = call.parameters["proxyPath"]
 
         try {
-            val response = consumer.getContent(authenticatedUser)
+            val response = consumer.getContent(authenticatedUser, proxyPath)
             call.respond(response.status, response.readBytes())
         } catch (exception: Exception) {
-            log.warn("Klarte ikke hente data fra endepunktet '$endpoint'. Feilmelding: [${exception.message}]. $authenticatedUser", exception)
+            log.warn("Klarte ikke hente data fra '$proxyPath'. Feilmelding: [${exception.message}]. $authenticatedUser", exception)
             call.respond(HttpStatusCode.ServiceUnavailable)
         }
     }
