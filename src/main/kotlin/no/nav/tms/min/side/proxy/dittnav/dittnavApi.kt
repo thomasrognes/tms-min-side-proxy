@@ -30,5 +30,3 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
 
 private val PipelineContext<Unit, ApplicationCall>.authenticatedUser: IdportenUser
     get() = IdportenUserFactory.createIdportenUser(call)
-
-
