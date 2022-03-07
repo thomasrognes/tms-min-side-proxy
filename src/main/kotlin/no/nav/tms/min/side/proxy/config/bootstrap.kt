@@ -5,11 +5,13 @@ import io.ktor.auth.*
 import io.ktor.client.*
 import io.ktor.features.*
 import io.ktor.http.*
-import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.util.*
+import no.nav.tms.min.side.proxy.arbeid.arbeidApi
+import no.nav.tms.min.side.proxy.dittnav.dittnavApi
 import no.nav.tms.min.side.proxy.health.healthApi
+import no.nav.tms.min.side.proxy.sykefravaer.sykefraverApi
 import no.nav.tms.token.support.idporten.sidecar.LoginLevel
 import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
 
@@ -38,9 +40,9 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         healthApi(appContext.healthService)
 
         authenticate {
-            get("/sikret") {
-                call.respond(HttpStatusCode.OK)
-            }
+            arbeidApi(appContext.arbeidConsumer)
+            dittnavApi(appContext.dittnavConsumer)
+            sykefraverApi(appContext.sykefravaerConsumer)
         }
     }
 

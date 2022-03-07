@@ -7,10 +7,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.URL
 
-suspend inline fun <reified T> HttpClient.get(url: URL): T = withContext(Dispatchers.IO) {
-    request {
-        url("$url")
+suspend inline fun <reified T> HttpClient.get(url: URL, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
+    request<T> {
+        url(url)
         method = HttpMethod.Get
+        header(HttpHeaders.Authorization, "Bearer ${accessToken.value}")
     }
 }
 
@@ -20,3 +21,5 @@ suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispat
         method = HttpMethod.Post
     }
 }
+
+
