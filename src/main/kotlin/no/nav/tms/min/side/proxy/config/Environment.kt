@@ -4,8 +4,8 @@ import no.nav.personbruker.dittnav.common.util.config.StringEnvVar.getEnvVar
 
 data class Environment(
     val corsAllowedOrigins: String = getEnvVar("CORS_ALLOWED_ORIGINS"),
-    val minSideClientId: String = getEnvVar("MIN_SIDE_CLIENT_ID"),
     val arbeidClientId: String = getEnvVar("ARBEID_CLIENT_ID"),
+    val dittnavClientId: String = getEnvVar("DITTNAV_CLIENT_ID"),
     val sykdomClientId: String = getEnvVar("SYKEFRAVAER_CLIENT_ID"),
 
     // InfluxDB

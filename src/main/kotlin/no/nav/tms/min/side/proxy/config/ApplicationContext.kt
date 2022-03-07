@@ -14,10 +14,10 @@ class ApplicationContext {
     val healthService = HealthService(this)
 
     val tokendingsService = TokendingsServiceBuilder.buildTokendingsService()
-    val tokenFetcher = TokenFetcher(tokendingsService, environment.minSideClientId, environment.arbeidClientId, environment.sykdomClientId)
+    val tokenFetcher = TokenFetcher(tokendingsService, environment.dittnavClientId, environment.arbeidClientId, environment.sykdomClientId)
 
-    val arbeidConsumer = ArbeidConsumer(httpClient, tokenFetcher, URL("endpoint"))
-    val dittnavConsumer = DittnavConsumer(httpClient, tokenFetcher, URL("endpoint"))
-    val sykefravaerConsumer = SykefravaerConsumer(httpClient, tokenFetcher, URL("endpoint"))
+    val arbeidConsumer = ArbeidConsumer(httpClient, tokenFetcher, URL("https://endpoint.no"))
+    val dittnavConsumer = DittnavConsumer(httpClient, tokenFetcher, URL("https://endpoint.no"))
+    val sykefravaerConsumer = SykefravaerConsumer(httpClient, tokenFetcher, URL("https://endpoint.no"))
 
 }
