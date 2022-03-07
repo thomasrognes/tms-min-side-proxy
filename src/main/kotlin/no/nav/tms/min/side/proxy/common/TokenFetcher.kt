@@ -1,4 +1,4 @@
-package no.nav.tms.min.side.proxy.config
+package no.nav.tms.min.side.proxy.common
 
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 

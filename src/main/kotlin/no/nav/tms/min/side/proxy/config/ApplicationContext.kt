@@ -1,6 +1,7 @@
 package no.nav.tms.min.side.proxy.config
 
 import no.nav.tms.min.side.proxy.arbeid.ArbeidConsumer
+import no.nav.tms.min.side.proxy.common.TokenFetcher
 import no.nav.tms.min.side.proxy.dittnav.DittnavConsumer
 import no.nav.tms.min.side.proxy.health.HealthService
 import no.nav.tms.min.side.proxy.sykefravaer.SykefravaerConsumer
