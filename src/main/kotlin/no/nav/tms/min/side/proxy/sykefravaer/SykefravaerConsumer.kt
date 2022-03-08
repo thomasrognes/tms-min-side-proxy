@@ -19,5 +19,5 @@ class SykefravaerConsumer(
 
         return httpClient.get(url, accessToken)
     }
-}
 
+}

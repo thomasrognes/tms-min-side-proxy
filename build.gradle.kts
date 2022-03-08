@@ -76,12 +76,12 @@ tasks {
     register("runServer", JavaExec::class) {
 
         environment("CORS_ALLOWED_ORIGINS", "localhost:9002")
-        environment("ARBEID_CLIENT_ID", "arbeidId")
-        environment("ARBEID_URL", "https://arbeid.no")
-        environment("DITTNAV_CLIENT_ID", "dittnavId")
-        environment("DITTNAV_URL", "https://dittnav.no")
-        environment("SYKEFRAVAER_CLIENT_ID", "sykefravaerId")
-        environment("SYKEFRAVAER_URL", "https://sykefravaer.no")
+        environment("ARBEID_API_CLIENT_ID", "arbeidId")
+        environment("ARBEID_API_URL", "https://arbeid.no")
+        environment("DITTNAV_API_CLIENT_ID", "dittnavId")
+        environment("DITTNAV_API_URL", "https://dittnav.no")
+        environment("SYKEFRAVAER_API_CLIENT_ID", "sykefravaerId")
+        environment("SYKEFRAVAER_API_URL", "https://sykefravaer.no")
 
         environment("NAIS_CLUSTER_NAME", "dev-sbs")
         environment("NAIS_NAMESPACE", "personbruker")

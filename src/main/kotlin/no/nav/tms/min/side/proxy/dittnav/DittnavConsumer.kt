@@ -19,6 +19,5 @@ class DittnavConsumer(
 
         return httpClient.get(url, accessToken)
     }
+
 }
-
-

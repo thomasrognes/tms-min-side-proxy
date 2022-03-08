@@ -19,4 +19,5 @@ class ArbeidConsumer(
 
         return httpClient.get(url, accessToken)
     }
+
 }

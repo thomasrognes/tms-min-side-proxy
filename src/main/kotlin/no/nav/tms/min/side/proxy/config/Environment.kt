@@ -4,12 +4,12 @@ import no.nav.personbruker.dittnav.common.util.config.StringEnvVar.getEnvVar
 
 data class Environment(
     val corsAllowedOrigins: String = getEnvVar("CORS_ALLOWED_ORIGINS"),
-    val arbeidBaseUrl: String = getEnvVar("ARBEID_URL"),
-    val arbeidClientId: String = getEnvVar("ARBEID_CLIENT_ID"),
-    val dittnavClientId: String = getEnvVar("DITTNAV_CLIENT_ID"),
-    val dittnavBaseUrl: String = getEnvVar("DITTNAV_URL"),
-    val sykefravaerClientId: String = getEnvVar("SYKEFRAVAER_CLIENT_ID"),
-    val sykefravaerBaseUrl: String = getEnvVar("SYKEFRAVAER_URL"),
+    val arbeidApiBaseUrl: String = getEnvVar("ARBEID_API_URL"),
+    val arbeidApiClientId: String = getEnvVar("ARBEID_API_CLIENT_ID"),
+    val dittnavApiClientId: String = getEnvVar("DITTNAV_API_CLIENT_ID"),
+    val dittnavApiBaseUrl: String = getEnvVar("DITTNAV_API_URL"),
+    val sykefravaerApiClientId: String = getEnvVar("SYKEFRAVAER_API_CLIENT_ID"),
+    val sykefravaerApiBaseUrl: String = getEnvVar("SYKEFRAVAER_API_URL"),
 
     // InfluxDB
     /*
