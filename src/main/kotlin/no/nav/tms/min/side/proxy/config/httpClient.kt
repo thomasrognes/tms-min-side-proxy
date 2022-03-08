@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 import no.nav.tms.min.side.proxy.common.AccessToken
 
 suspend inline fun <reified T> HttpClient.get(url: String, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
-    request<T> {
+    request {
         url(url)
         method = HttpMethod.Get
         header(HttpHeaders.Authorization, "Bearer ${accessToken.value}")
