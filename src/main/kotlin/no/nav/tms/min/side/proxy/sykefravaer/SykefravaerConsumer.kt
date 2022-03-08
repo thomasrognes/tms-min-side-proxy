@@ -14,7 +14,7 @@ class SykefravaerConsumer(
 ) {
 
     suspend fun getContent(user: IdportenUser, proxyPath: String?): HttpResponse {
-        val accessToken = AccessToken(tokenFetcher.getSykefravaerToken(user.tokenString))
+        val accessToken = AccessToken(tokenFetcher.getSykefravaerApiToken(user.tokenString))
         val url = "$baseUrl/$proxyPath"
 
         return httpClient.get(url, accessToken)

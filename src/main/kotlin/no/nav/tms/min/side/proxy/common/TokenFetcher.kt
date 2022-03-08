@@ -9,15 +9,15 @@ class TokenFetcher(
     private val sykefravaerClientId: String,
 ) {
 
-    suspend fun getArbeidToken(userToken: String): String {
+    suspend fun getArbeidApiToken(userToken: String): String {
         return tokendingsService.exchangeToken(userToken, arbeidClientId)
     }
 
-    suspend fun getDittnavToken(userToken: String): String {
+    suspend fun getDittnavApiToken(userToken: String): String {
         return tokendingsService.exchangeToken(userToken, dittnavClientId)
     }
 
-    suspend fun getSykefravaerToken(userToken: String): String {
+    suspend fun getSykefravaerApiToken(userToken: String): String {
         return tokendingsService.exchangeToken(userToken, sykefravaerClientId)
     }
 }

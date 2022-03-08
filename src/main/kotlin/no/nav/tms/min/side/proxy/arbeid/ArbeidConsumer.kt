@@ -14,7 +14,7 @@ class ArbeidConsumer(
 ) {
 
     suspend fun getContent(user: IdportenUser, proxyPath: String?): HttpResponse {
-        val accessToken = AccessToken(tokenFetcher.getArbeidToken(user.tokenString))
+        val accessToken = AccessToken(tokenFetcher.getArbeidApiToken(user.tokenString))
         val url = "$baseUrl/$proxyPath"
 
         return httpClient.get(url, accessToken)

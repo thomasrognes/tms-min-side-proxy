@@ -14,7 +14,7 @@ class DittnavConsumer(
 ) {
 
     suspend fun getContent(user: IdportenUser,  proxyPath: String?): HttpResponse {
-        val accessToken = AccessToken(tokenFetcher.getDittnavToken(user.tokenString))
+        val accessToken = AccessToken(tokenFetcher.getDittnavApiToken(user.tokenString))
         val url = "$baseUrl/$proxyPath"
 
         return httpClient.get(url, accessToken)
