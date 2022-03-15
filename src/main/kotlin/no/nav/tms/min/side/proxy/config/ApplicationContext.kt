@@ -16,8 +16,8 @@ class ApplicationContext {
     val tokendingsService = TokendingsServiceBuilder.buildTokendingsService()
     val tokenFetcher = TokenFetcher(
         tokendingsService,
-        environment.dittnavApiClientId,
         environment.arbeidApiClientId,
+        environment.dittnavApiClientId,
         environment.sykefravaerApiClientId
     )
 
