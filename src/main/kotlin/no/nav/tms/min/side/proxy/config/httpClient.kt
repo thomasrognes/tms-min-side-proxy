@@ -5,18 +5,14 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.net.URL
+import no.nav.tms.min.side.proxy.common.AccessToken
 
-suspend inline fun <reified T> HttpClient.get(url: URL): T = withContext(Dispatchers.IO) {
+suspend inline fun <reified T> HttpClient.get(url: String, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
     request {
-        url("$url")
+        url(url)
         method = HttpMethod.Get
+        header(HttpHeaders.Authorization, "Bearer ${accessToken.value}")
     }
 }
 
-suspend inline fun <reified T> HttpClient.post(url: URL): T = withContext(Dispatchers.IO) {
-    request {
-        url("$url")
-        method = HttpMethod.Post
-    }
-}
+

@@ -44,6 +44,8 @@ dependencies {
     implementation(Ktor.serialization)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
+    implementation(Tms.KtorTokenSupport.tokendingsExchange)
+    implementation(Tms.KtorTokenSupport.idportenSidecar)
 
     testImplementation(Junit.api)
     testImplementation(Ktor.clientMock)
@@ -72,12 +74,6 @@ tasks {
     }
 
     register("runServer", JavaExec::class) {
-
-        environment("CORS_ALLOWED_ORIGINS", "localhost:9002")
-
-        environment("NAIS_CLUSTER_NAME", "dev-sbs")
-        environment("NAIS_NAMESPACE", "personbruker")
-
         main = application.mainClassName
         classpath = sourceSets["main"].runtimeClasspath
     }

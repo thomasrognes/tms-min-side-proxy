@@ -8,6 +8,15 @@ metadata:
 spec:
   envFrom:
     - secret: tms-min-side-proxy-secrets
+  idporten:
+    enabled: true
+    postLogoutRedirectURIs:
+      - "https://www.dev.nav.no"
+    sidecar:
+      enabled: true
+      level: Level3
+  tokenx:
+    enabled: true
   image: {{version}}
   port: 8080
   liveness:
