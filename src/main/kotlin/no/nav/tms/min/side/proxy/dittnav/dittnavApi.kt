@@ -3,6 +3,7 @@ package no.nav.tms.min.side.proxy.dittnav
 import io.ktor.application.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
@@ -22,6 +23,19 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
             call.respond(response.status, response.readBytes())
         } catch (exception: Exception) {
             log.warn("Klarte ikke hente data fra '$proxyPath'. Feilmelding: ${exception.message}", exception)
+            call.respond(HttpStatusCode.ServiceUnavailable)
+        }
+    }
+
+    post("/dittnav/{proxyPath}") {
+        val proxyPath = call.parameters["proxyPath"]
+
+        try {
+            val content = call.receiveText()
+            val response = consumer.postContent(authenticatedUser, content, proxyPath)
+            call.respond(response.status)
+        } catch (exception: Exception) {
+            log.warn("Klarte ikke poste data. Feilmelding: ${exception.message}", exception)
             call.respond(HttpStatusCode.ServiceUnavailable)
         }
     }

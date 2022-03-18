@@ -15,4 +15,14 @@ suspend inline fun <reified T> HttpClient.get(url: String, accessToken: AccessTo
     }
 }
 
+suspend inline fun <reified T> HttpClient.post(url: String, content: String, accessToken: AccessToken): T = withContext(Dispatchers.IO) {
+    request {
+        url(url)
+        method = HttpMethod.Post
+        header(HttpHeaders.Authorization, "Bearer ${accessToken.value}")
+        contentType(ContentType.Application.Json)
+        body = content
+    }
+}
+
 
