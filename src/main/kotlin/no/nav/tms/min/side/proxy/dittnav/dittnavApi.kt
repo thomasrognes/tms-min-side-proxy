@@ -32,6 +32,7 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
 
         try {
             val content = call.receiveText()
+            log.info("Content: $content")
             val response = consumer.postContent(authenticatedUser, content, proxyPath)
             call.respond(response.status)
         } catch (exception: Exception) {
@@ -39,7 +40,6 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
             call.respond(HttpStatusCode.ServiceUnavailable)
         }
     }
-
 }
 
 private val PipelineContext<Unit, ApplicationCall>.authenticatedUser: IdportenUser
