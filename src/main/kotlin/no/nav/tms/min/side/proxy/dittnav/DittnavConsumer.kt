@@ -2,6 +2,7 @@ package no.nav.tms.min.side.proxy.dittnav
 
 import io.ktor.client.*
 import io.ktor.client.statement.*
+import kotlinx.serialization.json.JsonElement
 import no.nav.tms.min.side.proxy.common.AccessToken
 import no.nav.tms.min.side.proxy.common.TokenFetcher
 import no.nav.tms.min.side.proxy.config.get
@@ -21,7 +22,7 @@ class DittnavConsumer(
         return httpClient.get(url, accessToken)
     }
 
-    suspend fun postContent(user: IdportenUser, content: String, proxyPath: String?): HttpResponse {
+    suspend fun postContent(user: IdportenUser, content: JsonElement, proxyPath: String?): HttpResponse {
         val accessToken = AccessToken(tokenFetcher.getDittnavApiToken(user.tokenString))
         val url = "$baseUrl/$proxyPath"
 

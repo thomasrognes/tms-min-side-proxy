@@ -7,6 +7,7 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.pipeline.*
+import no.nav.tms.min.side.proxy.config.jsonConfig
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUser
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 import org.slf4j.LoggerFactory
@@ -31,7 +32,7 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
         val proxyPath = call.parameters["proxyPath"]
 
         try {
-            val content = call.receiveText()
+            val content = jsonConfig().parseToJsonElement(call.receiveText())
             log.info("Content: $content")
             val response = consumer.postContent(authenticatedUser, content, proxyPath)
             call.respond(response.status)
