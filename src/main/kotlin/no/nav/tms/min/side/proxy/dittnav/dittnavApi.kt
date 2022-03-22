@@ -33,7 +33,6 @@ fun Route.dittnavApi(consumer: DittnavConsumer) {
 
         try {
             val content = jsonConfig().parseToJsonElement(call.receiveText())
-            log.info("Content: $content")
             val response = consumer.postContent(authenticatedUser, content, proxyPath)
             call.respond(response.status)
         } catch (exception: Exception) {
