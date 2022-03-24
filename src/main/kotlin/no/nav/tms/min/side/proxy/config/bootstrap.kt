@@ -25,6 +25,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
         host(environment.corsAllowedOrigins)
         allowCredentials = true
         header(HttpHeaders.ContentType)
+        method(HttpMethod.Options)
     }
 
     install(ContentNegotiation) {
