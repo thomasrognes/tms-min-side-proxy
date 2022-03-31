@@ -22,7 +22,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
     install(DefaultHeaders)
 
     install(CORS) {
-        host(environment.corsAllowedOrigins)
+        host(environment.corsAllowedOrigins, schemes = listOf(environment.corsAllowedSchemes))
         allowCredentials = true
         header(HttpHeaders.ContentType)
         method(HttpMethod.Options)
