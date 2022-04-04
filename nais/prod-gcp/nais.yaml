@@ -30,7 +30,7 @@ spec:
     max: 4
   webproxy: true
   ingresses:
-    - "https://tms-min-side-proxy.intern.nav.no/tms-min-side-proxy"
+    - "https://person.intern.nav.no/tms-min-side-proxy"
   resources:
     limits:
       cpu: "3"
