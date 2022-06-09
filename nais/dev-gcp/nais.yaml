@@ -31,7 +31,6 @@ spec:
   webproxy: true
   ingresses:
     - "https://person.dev.nav.no/tms-min-side-proxy"
-    - "https://www.dev.nav.no/tms-min-side-proxy"
   resources:
     limits:
       cpu: "3"
