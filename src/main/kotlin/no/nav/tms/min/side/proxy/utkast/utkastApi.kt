@@ -17,7 +17,7 @@ fun Route.utkastApi(consumer: UtkastConsumer) {
 
     val log = LoggerFactory.getLogger(UtkastConsumer::class.java)
 
-    get("/utkast/{proxyPath}") {
+    get("/tms-utkast/{proxyPath}") {
         val proxyPath = call.parameters["proxyPath"]
 
         try {
