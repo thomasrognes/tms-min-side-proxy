@@ -11,6 +11,8 @@ data class Environment(
     val dittnavApiBaseUrl: String = getEnvVar("DITTNAV_API_URL"),
     val sykefravaerApiClientId: String = getEnvVar("SYKEFRAVAER_API_CLIENT_ID"),
     val sykefravaerApiBaseUrl: String = getEnvVar("SYKEFRAVAER_API_URL"),
+    val utkastClientId: String = getEnvVar("UTKAST_CLIENT_ID"),
+    val utastBaseUrl: String = getEnvVar("UTKAST_BASER_URL"),
 
     // InfluxDB
     /*

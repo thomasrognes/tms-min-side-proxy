@@ -12,6 +12,7 @@ import no.nav.tms.min.side.proxy.arbeid.arbeidApi
 import no.nav.tms.min.side.proxy.dittnav.dittnavApi
 import no.nav.tms.min.side.proxy.health.healthApi
 import no.nav.tms.min.side.proxy.sykefravaer.sykefraverApi
+import no.nav.tms.min.side.proxy.utkast.utkastApi
 import no.nav.tms.token.support.idporten.sidecar.LoginLevel
 import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
 
@@ -44,6 +45,7 @@ fun Application.mainModule(appContext: ApplicationContext = ApplicationContext()
             arbeidApi(appContext.arbeidConsumer)
             dittnavApi(appContext.dittnavConsumer)
             sykefraverApi(appContext.sykefravaerConsumer)
+            utkastApi(appContext.utkastConsumer)
         }
     }
 
