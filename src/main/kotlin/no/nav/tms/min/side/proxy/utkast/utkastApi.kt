@@ -26,6 +26,16 @@ fun Route.utkastApi(consumer: UtkastConsumer) {
             call.respond(HttpStatusCode.ServiceUnavailable)
         }
     }
+    get("/utkast/{proxyPath}") {
+        try {
+            val proxyPath = call.parameters["proxyPath"]
+            val response = consumer.getContent(authenticatedUser, "utkast/$proxyPath")
+            call.respond(response.status, response.readBytes())
+        } catch (exception: Exception) {
+            log.warn("Klarte ikke hente data fra 'utkast'. Feilmelding: ${exception.message}", exception)
+            call.respond(HttpStatusCode.ServiceUnavailable)
+        }
+    }
 
 }
 
