@@ -7,6 +7,7 @@ class TokenFetcher(
     private val arbeidClientId: String,
     private val dittnavClientId: String,
     private val sykefravaerClientId: String,
+    private val ukastClientId: String
 ) {
 
     suspend fun getArbeidApiToken(userToken: String): String {
@@ -19,5 +20,8 @@ class TokenFetcher(
 
     suspend fun getSykefravaerApiToken(userToken: String): String {
         return tokendingsService.exchangeToken(userToken, sykefravaerClientId)
+    }
+    suspend fun getUtkastApiToken(userToken: String): String {
+        return tokendingsService.exchangeToken(userToken, ukastClientId)
     }
 }
