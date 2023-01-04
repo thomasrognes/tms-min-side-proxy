@@ -25,45 +25,49 @@ repositories {
 }
 
 dependencies {
-    implementation(DittNAV.Common.logging)
     implementation(DittNAV.Common.utils)
     implementation(Jackson.dataTypeJsr310)
     implementation(Kotlinx.coroutines)
+    implementation(KotlinLogging.logging)
     implementation(Kotlinx.htmlJvm)
-    implementation(Ktor.auth)
-    implementation(Ktor.authJwt)
-    implementation(Ktor.clientApache)
-    implementation(Ktor.clientJackson)
-    implementation(Ktor.clientJson)
-    implementation(Ktor.clientLogging)
-    implementation(Ktor.clientLoggingJvm)
-    implementation(Ktor.clientSerializationJvm)
-    implementation(Ktor.htmlBuilder)
-    implementation(Ktor.jackson)
-    implementation(Ktor.serverNetty)
-    implementation(Ktor.serialization)
+    implementation(Ktor2.Server.core)
+    implementation(Ktor2.Server.netty)
+    implementation(Ktor2.Server.auth)
+    implementation(Ktor2.Server.authJwt)
+    implementation(Ktor2.Server.defaultHeaders)
+    implementation(Ktor2.Server.cors)
+    implementation(Ktor2.Server.statusPages)
+    implementation(Ktor2.Client.core)
+    implementation(Ktor2.Client.apache)
+    implementation(Ktor2.Client.contentNegotiation)
+    implementation(Ktor2.kotlinX)
+    implementation(Ktor2.Server.contentNegotiation)
+    implementation(Ktor2.TmsTokenSupport.tokendingsExchange)
+    implementation(Ktor2.TmsTokenSupport.idportenSidecar)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
-    implementation(Tms.KtorTokenSupport.tokendingsExchange)
-    implementation(Tms.KtorTokenSupport.idportenSidecar)
 
     testImplementation(Junit.api)
-    testImplementation(Ktor.clientMock)
-    testImplementation(Ktor.clientMockJvm)
-    testImplementation(Kluent.kluent)
-    testImplementation(Mockk.mockk)
-    testImplementation(Jjwt.api)
+    testImplementation(Ktor2.Test.clientMock)
+    testImplementation(Ktor2.Test.serverTestHost)
+    testImplementation(Kotest.assertionsCore)
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
 
-    testRuntimeOnly(Bouncycastle.bcprovJdk15on)
+
     testRuntimeOnly(Jjwt.impl)
-    testRuntimeOnly(Jjwt.jackson)
     testRuntimeOnly(Junit.engine)
+    testImplementation(Junit.params)
+    testImplementation(Jjwt.api)
+    testImplementation(NAV.tokenValidatorKtor)
+    testImplementation(Mockk.mockk)
+    testImplementation("com.github.navikt.tms-ktor-token-support:token-support-idporten-sidecar-mock:2.0.0")
+
+
 }
 
 application {
-    mainClassName = "io.ktor.server.netty.EngineMain"
+    mainClassName = "no.nav.tms.min.side.proxy.ApplicationKt"
 }
-
 tasks {
     withType<Test> {
         useJUnitPlatform()
@@ -71,11 +75,6 @@ tasks {
             exceptionFormat = TestExceptionFormat.FULL
             events("passed", "skipped", "failed")
         }
-    }
-
-    register("runServer", JavaExec::class) {
-        main = application.mainClassName
-        classpath = sourceSets["main"].runtimeClasspath
     }
 }
 
