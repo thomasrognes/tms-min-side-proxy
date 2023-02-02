@@ -16,17 +16,14 @@ tasks.withType<KotlinCompile> {
 }
 
 repositories {
-    // Use jcenter for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
-    maven("https://packages.confluent.io/maven")
     maven("https://jitpack.io")
     mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
-    implementation(DittNAV.Common.utils)
-    implementation(Jackson.dataTypeJsr310)
+    implementation(DittNAVCommonLib.utils)
+    implementation(JacksonDatatype.datatypeJsr310)
     implementation(Kotlinx.coroutines)
     implementation(KotlinLogging.logging)
     implementation(Kotlinx.htmlJvm)
@@ -40,10 +37,10 @@ dependencies {
     implementation(Ktor2.Client.core)
     implementation(Ktor2.Client.apache)
     implementation(Ktor2.Client.contentNegotiation)
-    implementation(Ktor2.kotlinX)
+    implementation(Ktor2.Serialization.kotlinX)
     implementation(Ktor2.Server.contentNegotiation)
-    implementation(Ktor2.TmsTokenSupport.tokendingsExchange)
-    implementation(Ktor2.TmsTokenSupport.idportenSidecar)
+    implementation(TmsKtorTokenSupport.tokendingsExchange)
+    implementation(TmsKtorTokenSupport.idportenSidecar)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
 
@@ -51,8 +48,7 @@ dependencies {
     testImplementation(Ktor2.Test.clientMock)
     testImplementation(Ktor2.Test.serverTestHost)
     testImplementation(Kotest.assertionsCore)
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
-
+    testImplementation(KotlinTest.junit)
 
     testRuntimeOnly(Jjwt.impl)
     testRuntimeOnly(Junit.engine)
@@ -60,9 +56,7 @@ dependencies {
     testImplementation(Jjwt.api)
     testImplementation(NAV.tokenValidatorKtor)
     testImplementation(Mockk.mockk)
-    testImplementation("com.github.navikt.tms-ktor-token-support:token-support-idporten-sidecar-mock:2.0.0")
-
-
+    testImplementation(TmsKtorTokenSupport.idportenSidecarMock)
 }
 
 application {
