@@ -18,11 +18,6 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher) {
         call.respond(response.status, response.readBytes())
     }
 
-    get("/arbeid/{proxyPath...}") {
-        val response = contentFetcher.getArbeidContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
-    }
-
     get("/dittnav/{proxyPath...}") {
         val response = contentFetcher.getDittNavContent(accessToken, proxyPath)
         call.respond(response.status, response.readBytes())
@@ -32,10 +27,6 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher) {
         val content = jsonConfig().parseToJsonElement(call.receiveText())
         val response = contentFetcher.postDittNavContent(accessToken, content, proxyPath)
         call.respond(response.status)
-    }
-    get("/sykefravaer/{proxyPath...}") {
-        val response = contentFetcher.getSykefravaerContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
     }
 
     get("/utkast/{proxyPath...}") {

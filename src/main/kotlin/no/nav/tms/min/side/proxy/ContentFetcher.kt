@@ -17,14 +17,10 @@ class ContentFetcher(
     private val tokendingsService: TokendingsService,
     private val aapClientId: String,
     private val aapBaseUrl: String,
-    private val arbeidClientId: String,
-    private val arbeidBaseUrl: String,
     private val dittnavClientId: String,
     private val dittnavBaseUrl: String,
     private val meldekortClientId: String,
     private val meldekortBaseUrl: String,
-    private val sykefravaerClientId: String,
-    private val sykefravaerBaseUrl: String,
     private val utkastClientId: String,
     private val utkastBaseUrl: String,
     private val personaliaClientId: String,
@@ -34,23 +30,6 @@ class ContentFetcher(
 
     suspend fun getUtkastContent(token: String, proxyPath: String?): HttpResponse =
         getContent(userToken = token, targetAppId = utkastClientId, baseUrl = utkastBaseUrl, proxyPath = proxyPath)
-
-    suspend fun getArbeidContent(token: String, proxyPath: String?): HttpResponse {
-        return getContent(
-            userToken = token,
-            targetAppId = arbeidClientId,
-            baseUrl = arbeidBaseUrl,
-            proxyPath = proxyPath
-        )
-    }
-
-    suspend fun getSykefravaerContent(token: String, proxyPath: String?): HttpResponse =
-        getContent(
-            userToken = token,
-            targetAppId = sykefravaerClientId,
-            baseUrl = sykefravaerBaseUrl,
-            proxyPath = proxyPath
-        )
 
     suspend fun getDittNavContent(token: String, proxyPath: String?): HttpResponse =
         getContent(
