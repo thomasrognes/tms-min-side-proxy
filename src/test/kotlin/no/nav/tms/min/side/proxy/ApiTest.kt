@@ -24,16 +24,14 @@ class ApiTest {
     private val baseurl =
         mapOf(
             "aap" to "http://aap.test",
-            "arbeid" to "http://arbeid.test",
             "dittnav" to "http://dittnav.test",
             "meldekort" to "http://meldekort.test",
-            "sykefravaer" to "http://sykefravaer.test",
             "utkast" to "http://utkast.test",
             "personalia" to "http://personalia.test"
         )
 
     @ParameterizedTest
-    @ValueSource(strings = ["aap", "arbeid", "utkast", "sykefravaer", "dittnav", "personalia", "meldekort"])
+    @ValueSource(strings = ["aap", "utkast", "dittnav", "personalia", "meldekort"])
     fun `proxy get api`(tjenestePath: String) = testApplication {
         val applicationhttpClient = testApplicationHttpClient()
         mockApi(
@@ -129,12 +127,8 @@ class ApiTest {
         tokendingsService = tokendingsMock,
         aapBaseUrl = baseurl["aap"]!!,
         aapClientId = "aapclient",
-        arbeidClientId = "arbeidclient",
-        arbeidBaseUrl = baseurl["arbeid"]!!,
         dittnavClientId = "dittnavclient",
         dittnavBaseUrl = baseurl["dittnav"]!!,
-        sykefravaerClientId = "sykefraværtclient",
-        sykefravaerBaseUrl = baseurl["sykefravaer"]!!,
         utkastClientId = "utkastclient",
         utkastBaseUrl = baseurl["utkast"]!!,
         personaliaClientId = "personalia",
