@@ -34,6 +34,8 @@ data class AppConfiguration(
     private val utkastBaseUrl: String = StringEnvVar.getEnvVar("UTKAST_BASE_URL"),
     private val personaliaClientId: String = StringEnvVar.getEnvVar("PERSONALIA_CLIENT_ID"),
     private val personaliaBaseUrl: String = StringEnvVar.getEnvVar("PERSONALIA_BASE_URL"),
+    private val selectorClientId: String = StringEnvVar.getEnvVar("SELCTOR_CLIENT_ID"),
+    private val selectorBaseUrl: String = StringEnvVar.getEnvVar("SELCTOR_BASE_URL"),
 ) {
 
     private val httpClient = HttpClient(Apache.create()) {
@@ -55,6 +57,8 @@ data class AppConfiguration(
         utkastBaseUrl = utkastBaseUrl,
         personaliaClientId = personaliaClientId,
         personaliaBaseUrl = personaliaBaseUrl,
+        selectorClientId = selectorClientId,
+        selectorBaseUrl = selectorBaseUrl,
         httpClient = httpClient
     )
 }

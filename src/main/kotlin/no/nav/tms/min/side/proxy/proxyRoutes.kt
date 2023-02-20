@@ -43,6 +43,11 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher) {
         val response = contentFetcher.getMeldekortContent(accessToken, proxyPath)
         call.respond(response.status, response.readBytes())
     }
+
+    get("/selector/{proxyPath...}") {
+        val response = contentFetcher.getProfilContent(accessToken, proxyPath)
+        call.respond(response.status, response.readBytes())
+    }
 }
 
 
