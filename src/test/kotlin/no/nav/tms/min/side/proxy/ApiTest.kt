@@ -29,7 +29,8 @@ class ApiTest {
             "utkast" to "http://utkast.test",
             "personalia" to "http://personalia.test",
             "selector" to "http://selector.test",
-            "varsel" to "http://varsel.test"
+            "varsel" to "http://varsel.test",
+            "eventAggregator" to "http://eventAggregator.test"
         )
 
     @ParameterizedTest
@@ -69,9 +70,9 @@ class ApiTest {
         client.authenticatedGet("/$tjenestePath/servererror").status shouldBe HttpStatusCode.InternalServerError
     }
 
-    @Test
-    fun `proxy post`() = testApplication {
-        val tjenestePath = "dittnav"
+    @ParameterizedTest
+    @ValueSource(strings = ["dittnav", "eventAggregator"])
+    fun `proxy post`(tjenestePath: String) = testApplication {
         val applicationhttpClient = testApplicationHttpClient()
         mockApi(contentFetcher = contentFecther(applicationhttpClient))
 
@@ -102,7 +103,6 @@ class ApiTest {
 
         client.authenticatedPost("/$tjenestePath/doesnotexist").status shouldBe HttpStatusCode.NotFound
         client.authenticatedPost("/$tjenestePath/servererror").status shouldBe HttpStatusCode.InternalServerError
-
     }
 
     @Test
@@ -124,13 +124,14 @@ class ApiTest {
         }
     }
 
-
     private fun contentFecther(httpClient: HttpClient): ContentFetcher = ContentFetcher(
         tokendingsService = tokendingsMock,
         aapBaseUrl = baseurl["aap"]!!,
         aapClientId = "aapclient",
         dittnavClientId = "dittnavclient",
         dittnavBaseUrl = baseurl["dittnav"]!!,
+        eventAggregatorClientId = "eventAggregatorclient",
+        eventAggregatorBaseUrl = baseurl["eventAggregator"]!!,
         utkastClientId = "utkastclient",
         utkastBaseUrl = baseurl["utkast"]!!,
         personaliaClientId = "personalia",
@@ -143,9 +144,7 @@ class ApiTest {
         varselBaseUrl = baseurl["varsel"]!!,
         httpClient = httpClient,
     )
-
 }
-
 
 private const val testContent = """{"testinnhold": "her testes det innhold"}"""
 private val tokendingsMock = mockk<TokendingsService>().apply {

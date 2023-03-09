@@ -42,6 +42,7 @@ spec:
     outbound:
       rules:
         - application: tms-utkast
+        - application: dittnav-event-aggregator
         - application: tms-personalia-api
         - application: tms-mikrofrontend-selector
         - application: tms-varsel-api
