@@ -30,7 +30,7 @@ class ApiTest {
             "personalia" to "http://personalia.test",
             "selector" to "http://selector.test",
             "varsel" to "http://varsel.test",
-            "eventAggregator" to "http://eventAggregator.test"
+            "eventaggregator" to "http://eventAggregator.test"
         )
 
     @ParameterizedTest
@@ -71,7 +71,7 @@ class ApiTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["dittnav", "eventAggregator"])
+    @ValueSource(strings = ["dittnav", "eventaggregator"])
     fun `proxy post`(tjenestePath: String) = testApplication {
         val applicationhttpClient = testApplicationHttpClient()
         mockApi(contentFetcher = contentFecther(applicationhttpClient))
@@ -130,8 +130,8 @@ class ApiTest {
         aapClientId = "aapclient",
         dittnavClientId = "dittnavclient",
         dittnavBaseUrl = baseurl["dittnav"]!!,
-        eventAggregatorClientId = "eventAggregatorclient",
-        eventAggregatorBaseUrl = baseurl["eventAggregator"]!!,
+        eventAggregatorClientId = "eventaggregatorclient",
+        eventAggregatorBaseUrl = baseurl["eventaggregator"]!!,
         utkastClientId = "utkastclient",
         utkastBaseUrl = baseurl["utkast"]!!,
         personaliaClientId = "personalia",
