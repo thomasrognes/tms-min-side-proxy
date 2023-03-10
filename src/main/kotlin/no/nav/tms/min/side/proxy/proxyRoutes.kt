@@ -29,6 +29,12 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher) {
         call.respond(response.status)
     }
 
+    post("/eventAggregator/{proxyPath...}") {
+        val content = jsonConfig().parseToJsonElement(call.receiveText())
+        val response = contentFetcher.postEventAggregatorContent(accessToken, content, proxyPath)
+        call.respond(response.status)
+    }
+
     get("/utkast/{proxyPath...}") {
         val response = contentFetcher.getUtkastContent(accessToken, proxyPath)
         call.respond(response.status, response.readBytes())

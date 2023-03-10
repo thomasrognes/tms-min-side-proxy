@@ -21,6 +21,8 @@ class ContentFetcher(
     private val aapBaseUrl: String,
     private val dittnavClientId: String,
     private val dittnavBaseUrl: String,
+    private val eventAggregatorClientId: String,
+    private val eventAggregatorBaseUrl: String,
     private val meldekortClientId: String,
     private val meldekortBaseUrl: String,
     private val utkastClientId: String,
@@ -50,6 +52,11 @@ class ContentFetcher(
     suspend fun postDittNavContent(token: String, content: JsonElement, proxyPath: String?): HttpResponse {
         val exchangedToken = tokendingsService.exchangeToken(token, targetApp = dittnavClientId)
         return httpClient.post("$dittnavBaseUrl/$proxyPath", content, exchangedToken)
+    }
+
+    suspend fun postEventAggregatorContent(token: String, content: JsonElement, proxyPath: String?): HttpResponse {
+        val exchangedToken = tokendingsService.exchangeToken(token, targetApp = eventAggregatorClientId)
+        return httpClient.post("$eventAggregatorBaseUrl/$proxyPath", content, exchangedToken)
     }
 
     suspend fun getPersonaliaContent(token: String, proxyPath: String?): HttpResponse =
