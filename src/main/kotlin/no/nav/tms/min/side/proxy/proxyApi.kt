@@ -9,12 +9,15 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopping
 import io.ktor.server.application.install
 import io.ktor.server.auth.authenticate
+import io.ktor.server.metrics.micrometer.MicrometerMetrics
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.defaultheaders.DefaultHeaders
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import io.ktor.server.routing.routing
+import io.micrometer.prometheus.PrometheusConfig
+import io.micrometer.prometheus.PrometheusMeterRegistry
 import mu.KotlinLogging
 import no.nav.tms.token.support.idporten.sidecar.LoginLevel.LEVEL_3
 import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
@@ -31,6 +34,7 @@ fun Application.proxyApi(
         }
     }
 ) {
+    val collectorRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
 
     install(DefaultHeaders)
 
@@ -55,8 +59,12 @@ fun Application.proxyApi(
         json(jsonConfig())
     }
 
+    install(MicrometerMetrics) {
+        registry = collectorRegistry
+    }
+
     routing {
-        healthRoutes()
+        metaRoutes(collectorRegistry)
         authenticate {
             proxyRoutes(contentFetcher)
         }

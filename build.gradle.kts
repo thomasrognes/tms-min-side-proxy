@@ -33,6 +33,7 @@ dependencies {
     implementation(Ktor2.Server.authJwt)
     implementation(Ktor2.Server.defaultHeaders)
     implementation(Ktor2.Server.cors)
+    implementation(Ktor2.Server.metricsMicrometer)
     implementation(Ktor2.Server.statusPages)
     implementation(Ktor2.Client.core)
     implementation(Ktor2.Client.apache)
@@ -43,6 +44,7 @@ dependencies {
     implementation(TmsKtorTokenSupport.idportenSidecar)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
+    implementation(Micrometer.registryPrometheus)
 
     testImplementation(Junit.api)
     testImplementation(Ktor2.Test.clientMock)
