@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       cluster:
-        description: 'Clusteret branchen skal deployes til'
+        description: 'Det clusteret branchen skal deployes til'
         required: true
         type: string
 
