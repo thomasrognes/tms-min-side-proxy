@@ -17,6 +17,9 @@ spec:
       level: Level3
   tokenx:
     enabled: true
+  azure:
+    application:
+      enabled: true
   image: {{version}}
   port: 8080
   liveness:
@@ -31,6 +34,8 @@ spec:
   replicas:
     min: 2
     max: 4
+  secureLogs:
+    enabled: true
   webproxy: true
   ingresses:
     - "https://www.dev.nav.no/tms-min-side-proxy"
@@ -46,6 +51,7 @@ spec:
       rules:
         - application: tms-utkast
         - application: dittnav-event-aggregator
+        - application: tms-statistikk
         - application: tms-personalia-api
         - application: tms-mikrofrontend-selector
         - application: tms-varsel-api
@@ -53,3 +59,10 @@ spec:
           namespace: meldekort
         - application: soknad-api
           namespace: aap
+  env:
+    - name: STATISTIKK_BASE_URL
+      value: "http://tms-statistikk"
+    - name: STATISTIKK_CLIENT_ID
+      value: "dev-gcp:min-side:tms-statistikk"
+
+

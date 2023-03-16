@@ -1,22 +1,21 @@
 package no.nav.tms.min.side.proxy
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.statement.HttpResponse
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
+import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.request
-import io.ktor.http.HttpMethod
-import io.ktor.http.contentType
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import mu.KotlinLogging
+import no.nav.tms.token.support.azure.exchange.AzureService
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 
 class ContentFetcher(
     private val tokendingsService: TokendingsService,
+    private val azureService: AzureService,
     private val aapClientId: String,
     private val aapBaseUrl: String,
     private val dittnavClientId: String,
@@ -33,9 +32,12 @@ class ContentFetcher(
     private val selectorBaseUrl: String,
     private val varselClientId: String,
     private val varselBaseUrl: String,
+    private val statistikkApiId: String,
+    private val statistikkBaseApiUrl: String,
     private val httpClient: HttpClient
 ) {
 
+    private val secureLog = KotlinLogging.logger("secureLog")
     private val log = KotlinLogging.logger {}
 
     suspend fun getUtkastContent(token: String, proxyPath: String?): HttpResponse =
@@ -51,12 +53,18 @@ class ContentFetcher(
 
     suspend fun postDittNavContent(token: String, content: JsonElement, proxyPath: String?): HttpResponse {
         val exchangedToken = tokendingsService.exchangeToken(token, targetApp = dittnavClientId)
-        return httpClient.post("$dittnavBaseUrl/$proxyPath", content, exchangedToken)
+        return withResponseLogging { httpClient.post("$dittnavBaseUrl/$proxyPath", content, exchangedToken) }
     }
 
     suspend fun postEventAggregatorContent(token: String, content: JsonElement, proxyPath: String?): HttpResponse {
         val exchangedToken = tokendingsService.exchangeToken(token, targetApp = eventAggregatorClientId)
-        return httpClient.post("$eventAggregatorBaseUrl/$proxyPath", content, exchangedToken)
+        return withResponseLogging {
+            httpClient.post(
+                "$eventAggregatorBaseUrl/$proxyPath",
+                content,
+                exchangedToken
+            )
+        }
     }
 
     suspend fun getPersonaliaContent(token: String, proxyPath: String?): HttpResponse =
@@ -100,6 +108,18 @@ class ContentFetcher(
             proxyPath = proxyPath,
         )
 
+    suspend fun postInnloggingStatistikk(ident: String) = withContext(Dispatchers.IO) {
+        val accessToken = azureService.getAccessToken(statistikkApiId)
+        request {
+            url(statistikkBaseApiUrl)
+            method = HttpMethod.Post
+            header(HttpHeaders.Authorization, "Bearer $accessToken")
+            contentType(ContentType.Application.Json)
+            setBody(LoginStatistikkRequest(ident))
+        }
+    }
+
+
     private suspend fun getContent(
         userToken: String,
         targetAppId: String,
@@ -109,10 +129,8 @@ class ContentFetcher(
     ): HttpResponse {
         val exchangedToken = tokendingsService.exchangeToken(userToken, targetAppId)
         val url = proxyPath?.let { "$baseUrl/$it" } ?: baseUrl
-        return httpClient.get<HttpResponse>(url, header, exchangedToken).also {
-            if(it.status.value != 200) {
-                log.warn { "Request til ${it.request.url} feiler med ${it.status.value}" }
-            }
+        return withResponseLogging {
+            httpClient.get(url, header, exchangedToken)
         }
     }
 
@@ -120,6 +138,19 @@ class ContentFetcher(
         httpClient.close()
     }
 
+    private suspend fun withResponseLogging(
+        function: suspend () -> HttpResponse
+    ): HttpResponse =
+        function().also { response ->
+            if (!response.status.isSuccess()) {
+                val body = response.body<String>()
+                val url = response.request.url
+                log.warn { "Request til $url feiler med ${response.status}" }
+                secureLog.warn {
+                    "proxy kall feilet mot $url.\nFeilkode: ${response.status} \nInnhold: $body\npayload fra request: $response.request.content"
+                }
+            }
+        }
 }
 
 suspend inline fun <reified T> HttpClient.get(url: String, authorizationHeader: String, accessToken: String): T =
@@ -141,3 +172,6 @@ suspend inline fun <reified T> HttpClient.post(url: String, content: JsonElement
             setBody(content)
         }
     }.body()
+
+@Serializable
+private class LoginStatistikkRequest(val ident: String)
