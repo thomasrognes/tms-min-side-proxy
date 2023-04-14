@@ -28,11 +28,12 @@ class ApiTest {
             "personalia" to "http://personalia.test",
             "selector" to "http://selector.test",
             "varsel" to "http://varsel.test",
-            "eventaggregator" to "http://eventAggregator.test"
+            "eventaggregator" to "http://eventAggregator.test",
+            "syk/dialogmote" to "http://isdialog.test"
         )
 
     @ParameterizedTest
-    @ValueSource(strings = ["aap", "utkast", "personalia", "meldekort", "selector", "varsel"])
+    @ValueSource(strings = ["aap", "utkast", "personalia", "meldekort", "selector", "varsel","syk/dialogmote"])
     fun `proxy get api`(tjenestePath: String) = testApplication {
         val applicationhttpClient = testApplicationHttpClient()
         mockApi(
@@ -65,7 +66,7 @@ class ApiTest {
         }
 
         client.authenticatedGet("/$tjenestePath/doesnotexist").status shouldBe HttpStatusCode.NotFound
-        client.authenticatedGet("/$tjenestePath/servererror").status shouldBe HttpStatusCode.InternalServerError
+        client.authenticatedGet("/$tjenestePath/servererror").status shouldBe HttpStatusCode.ServiceUnavailable
     }
 
     @ParameterizedTest
@@ -100,7 +101,7 @@ class ApiTest {
         }
 
         client.authenticatedPost("/$tjenestePath/doesnotexist").status shouldBe HttpStatusCode.NotFound
-        client.authenticatedPost("/$tjenestePath/servererror").status shouldBe HttpStatusCode.InternalServerError
+        client.authenticatedPost("/$tjenestePath/servererror").status shouldBe HttpStatusCode.ServiceUnavailable
     }
 
 
@@ -167,7 +168,9 @@ class ApiTest {
         varselBaseUrl = baseurl["varsel"]!!,
         httpClient = httpClient,
         statistikkApiId = "statistikk",
-        statistikkBaseApiUrl = "http://statistikk.test"
+        statistikkBaseApiUrl = "http://statistikk.test",
+        sykDialogmoteBaseUrl = baseurl["syk/dialogmote"]!!,
+        sykDialogmoteClientId = "sykdialogmote",
     )
 }
 

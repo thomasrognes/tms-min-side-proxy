@@ -7,12 +7,17 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
+import mu.KotlinLogging
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 
 fun Route.proxyRoutes(contentFetcher: ContentFetcher) {
 
     get("/aap/{proxyPath...}") {
         val response = contentFetcher.getAapContent(accessToken, proxyPath)
+        call.respond(response.status, response.readBytes())
+    }
+    get("syk/dialogmote/{proxyPath...}") {
+        val response = contentFetcher.getSykDialogmoteContent(accessToken, proxyPath)
         call.respond(response.status, response.readBytes())
     }
 
