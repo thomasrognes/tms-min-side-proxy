@@ -34,7 +34,6 @@ spec:
     max: 4
   secureLogs:
     enabled: true
-  webproxy: true
   ingresses:
     - "https://www.dev.nav.no/tms-min-side-proxy"
     - "https://www.intern.dev.nav.no/tms-min-side-proxy"
@@ -58,6 +57,8 @@ spec:
           namespace: meldekort
         - application: soknad-api
           namespace: aap
+        - application: isdialogmote
+          namespace: teamsykefravr
   env:
     - name: STATISTIKK_BASE_URL
       value: http://tms-statistikk
