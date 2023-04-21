@@ -42,10 +42,10 @@ fun Application.proxyApi(
 
     install(StatusPages) {
         exception<Throwable> { call, cause ->
-            log.info { "${call.request.uri}: ${cause.message}" }
+            log.warn { "${call.request.uri}: ${cause.message}" }
             when (cause) {
                 is TokendingsException -> {
-                    securelog.info {
+                    securelog.warn {
                         """
                         ${cause.message} for token 
                         ${cause.accessToken}
@@ -58,7 +58,7 @@ fun Application.proxyApi(
 
                 }
                 else -> {
-                    securelog.info { cause.stackTraceToString() }
+                    securelog.error { cause.stackTraceToString() }
                     call.respond(HttpStatusCode.InternalServerError)
                 }
             }
