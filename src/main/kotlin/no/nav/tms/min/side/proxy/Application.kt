@@ -40,6 +40,8 @@ data class AppConfiguration(
     private val statistikkBaseUrl: String = StringEnvVar.getEnvVar("STATISTIKK_BASE_URL"),
     private val sykDialogmoteBaseUrl: String = StringEnvVar.getEnvVar("SYK_DIALOGMOTE_BASE_URL"),
     private val sykDialogmoteClientId: String = StringEnvVar.getEnvVar("SYK_DIALOGMOTE_CLIENT_ID"),
+    private val oppfolgingClientId: String = StringEnvVar.getEnvVar("OPPFOLGING_CLIENT_ID"),
+    private val oppfolgingBaseUrl: String = StringEnvVar.getEnvVar("OPPFOLGING_API_URL"),
 ) {
     private val httpClient = HttpClient(Apache.create()) {
         install(ContentNegotiation) {
@@ -48,15 +50,16 @@ data class AppConfiguration(
         install(HttpTimeout)
     }
 
-    val contentFecther = ContentFetcher(
+    private val proxyHttpClient = ProxyHttpClient(
+        httpClient = httpClient,
         tokendingsService = TokendingsServiceBuilder.buildTokendingsService(),
-        azureService = AzureServiceBuilder.buildAzureService(),
-        aapClientId = aapClientId,
-        aapBaseUrl = aapBaseUrl,
+        azureService = AzureServiceBuilder.buildAzureService()
+    )
+
+    val contentFecther = ContentFetcher(
+        proxyHttpClient = proxyHttpClient,
         eventAggregatorClientId = eventAggregatorClientId,
         eventAggregatorBaseUrl = eventAggregatorBaseUrl,
-        meldekortClientId = meldekortClientId,
-        meldekortBaseUrl = meldekortBaseUrl,
         utkastClientId = utkastClientId,
         utkastBaseUrl = utkastBaseUrl,
         personaliaClientId = personaliaClientId,
@@ -65,9 +68,18 @@ data class AppConfiguration(
         selectorBaseUrl = selectorBaseUrl,
         varselClientId = varselClientId,
         varselBaseUrl = varselBaseUrl,
-        httpClient = httpClient,
+        statistikkClientId = statistikkClientId,
         statistikkBaseApiUrl = statistikkBaseUrl,
-        statistikkApiId = statistikkClientId,
+        oppfolgingClientId = oppfolgingClientId,
+        oppfolgingBaseUrl = oppfolgingBaseUrl,
+    )
+
+    val externalContentFetcher = ExternalContentFetcher(
+        proxyHttpClient = proxyHttpClient,
+        aapClientId = aapClientId,
+        aapBaseUrl = aapBaseUrl,
+        meldekortClientId = meldekortClientId,
+        meldekortBaseUrl = meldekortBaseUrl,
         sykDialogmoteBaseUrl = sykDialogmoteBaseUrl,
         sykDialogmoteClientId = sykDialogmoteClientId,
     )
@@ -86,7 +98,8 @@ fun ApplicationEngineEnvironmentBuilder.envConfig(appConfig: AppConfiguration) {
         proxyApi(
             corsAllowedOrigins = appConfig.corsAllowedOrigins,
             corsAllowedSchemes = appConfig.corsAllowedSchemes,
-            contentFetcher = appConfig.contentFecther
+            contentFetcher = appConfig.contentFecther,
+            externalContentFetcher = appConfig.externalContentFetcher
         )
     }
     connector {

@@ -5,6 +5,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopping
+import io.ktor.server.application.call
 import io.ktor.server.application.install
 import io.ktor.server.auth.*
 import io.ktor.server.metrics.micrometer.*
@@ -27,6 +28,7 @@ fun Application.proxyApi(
     corsAllowedOrigins: String,
     corsAllowedSchemes: String,
     contentFetcher: ContentFetcher,
+    externalContentFetcher: ExternalContentFetcher,
     idportenAuthInstaller: Application.() -> Unit = {
         installIdPortenAuth {
             setAsDefault = true
@@ -84,7 +86,10 @@ fun Application.proxyApi(
     routing {
         metaRoutes(collectorRegistry)
         authenticate {
-            proxyRoutes(contentFetcher)
+            get("authPing"){
+                call.respond(HttpStatusCode.OK)
+            }
+            proxyRoutes(contentFetcher,externalContentFetcher)
         }
     }
 

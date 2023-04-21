@@ -45,6 +45,8 @@ spec:
       memory: 256Mi
   accessPolicy:
     outbound:
+      external:
+        - host: https://veilarboppfolging.prod-fss-pub.nais.io
       rules:
         - application: tms-utkast
         - application: dittnav-event-aggregator
@@ -58,6 +60,9 @@ spec:
           namespace: aap
         - application: isdialogmote
           namespace: teamsykefravr
+        - application: veilarboppfolging
+          namespace: pto
+          cluster: prod-fss
   env:
     - name: STATISTIKK_BASE_URL
       value: http://tms-statistikk
@@ -99,3 +104,7 @@ spec:
       value: http://isdialogmote.teamsykefravr
     - name: SYK_DIALOGMOTE_CLIENT_ID
       value: prod-gcp:teamsykefravr:isdialogmote
+    - name: OPPFOLGING_API_URL
+      value: https://veilarboppfolging.prod-fss-pub.nais.io
+    - name: OPPFOLGING_CLIENT_ID
+      value: prod-fss:pto:veilarboppfolging

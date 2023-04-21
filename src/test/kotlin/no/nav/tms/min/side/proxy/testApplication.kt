@@ -25,17 +25,20 @@ private val stubToken = jwtStub.createTokenFor("subject", "audience")
 internal fun ApplicationTestBuilder.mockApi(
     corsAllowedOrigins: String = "*.nav.no",
     corsAllowedSchemes: String = "https",
-    contentFetcher: ContentFetcher
+    contentFetcher: ContentFetcher,
+    externalContentFetcher : ExternalContentFetcher,
+    securityLevel: SecurityLevel = SecurityLevel.LEVEL_4
 ) = application {
     proxyApi(
         corsAllowedOrigins = corsAllowedOrigins,
         corsAllowedSchemes = corsAllowedSchemes,
         contentFetcher = contentFetcher,
+        externalContentFetcher = externalContentFetcher,
         idportenAuthInstaller = {
             installIdPortenAuthMock {
                 alwaysAuthenticated = true
                 setAsDefault = true
-                staticSecurityLevel = SecurityLevel.LEVEL_3
+                staticSecurityLevel = securityLevel
                 staticUserPid = "12345"
             }
         }
