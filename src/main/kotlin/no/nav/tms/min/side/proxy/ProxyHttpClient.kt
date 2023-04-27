@@ -32,7 +32,7 @@ class ProxyHttpClient(
         baseUrl: String,
         proxyPath: String?,
         header: String = HttpHeaders.Authorization,
-        extraHeaders: Map<String,String>? = null
+        extraHeaders: Map<String, String>? = null
     ): HttpResponse {
         val exchangedToken = exchangeToken(userToken, targetAppId)
         val url = proxyPath?.let { "$baseUrl/$it" } ?: baseUrl
@@ -61,12 +61,14 @@ class ProxyHttpClient(
         proxyPath: String?,
         baseUrl: String,
         accessToken: String,
-        targetAppId: String
+        targetAppId: String,
+        extraHeaders: Map<String, String>? = null
     ): HttpResponse =
         httpClient.post(
             url = "$baseUrl/$proxyPath",
             content = content,
-            accessToken = exchangeToken(accessToken, targetAppId)
+            accessToken = exchangeToken(accessToken, targetAppId),
+            extraHeaders = extraHeaders
         ).responseIfOk()
 
     private suspend fun exchangeToken(
@@ -82,7 +84,7 @@ class ProxyHttpClient(
         url: String,
         authorizationHeader: String,
         accessToken: String,
-        extraHeaders: Map<String,String>? = null
+        extraHeaders: Map<String, String>? = null
     ): HttpResponse =
         withContext(Dispatchers.IO) {
             request {
@@ -90,7 +92,7 @@ class ProxyHttpClient(
                 method = HttpMethod.Get
                 header(authorizationHeader, "Bearer $accessToken")
                 extraHeaders?.forEach {
-                    header(it.key,it.value)
+                    header(it.key, it.value)
                 }
             }
         }.responseIfOk()
@@ -102,12 +104,20 @@ class ProxyHttpClient(
             this
         }
 
-    private suspend inline fun HttpClient.post(url: String, content: JsonElement, accessToken: String): HttpResponse =
+    private suspend inline fun HttpClient.post(
+        url: String,
+        content: JsonElement,
+        accessToken: String,
+        extraHeaders: Map<String, String>? = null
+    ): HttpResponse =
         withContext(Dispatchers.IO) {
             request {
                 url(url)
                 method = HttpMethod.Post
                 header(HttpHeaders.Authorization, "Bearer $accessToken")
+                extraHeaders?.forEach{
+                    header(it.key, it.value)
+                }
                 contentType(ContentType.Application.Json)
                 setBody(content)
             }
@@ -130,3 +140,5 @@ class RequestExcpetion(url: String, status: HttpStatusCode) : Exception(
     val responseCode =
         if (status == HttpStatusCode.NotFound) HttpStatusCode.NotFound else HttpStatusCode.ServiceUnavailable
 }
+
+class MissingHeaderException(message: String) : Exception(message)

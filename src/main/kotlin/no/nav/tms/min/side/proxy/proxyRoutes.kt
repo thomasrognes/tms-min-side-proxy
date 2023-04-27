@@ -55,12 +55,26 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
         val response = contentFetcher.getOppfolgingContent(accessToken, "api/niva3/underoppfolging")
         call.respond(response.status, response.readBytes())
     }
-
     post("/statistikk/innlogging") {
         contentFetcher.postInnloggingStatistikk(ident)
         call.respond(HttpStatusCode.OK)
     }
 }
+
+fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
+    get("/aia/{proxyPath...}") {
+        val response = externalContentFetcher.getAiaContent(accessToken, proxyPath, call.navCallId())
+        call.respond(response.status, response.readBytes())
+    }
+
+    post("/aia/{proxyPath...}") {
+        val content = jsonConfig().parseToJsonElement(call.receiveText())
+        val response = externalContentFetcher.postAiaContent(accessToken, proxyPath, content, call.navCallId())
+        call.respond(response.status)
+    }
+}
+
+private fun ApplicationCall.navCallId() = request.headers["Nav-Call-Id"]
 
 
 private val PipelineContext<Unit, ApplicationCall>.accessToken
