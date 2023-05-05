@@ -8,8 +8,12 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.flattenForEach
 import io.ktor.util.pipeline.*
+import io.ktor.util.toMap
+import mu.KotlinLogging
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 
+private val log = KotlinLogging.logger {}
+private val securelog = KotlinLogging.logger("secureLog")
 fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: ExternalContentFetcher) {
 
     get("/aap/{proxyPath...}") {
@@ -80,7 +84,15 @@ fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
     }
 }
 
-private fun ApplicationCall.navCallId() = request.headers["Nav-Call-Id"]
+private fun ApplicationCall.navCallId() = request.headers["Nav-Call-Id"].also {
+    if (it == null) {
+        log.info { "Fant ikke header Nav-Call-Id for kall til ${this.request.uri}" }
+        val headerStr = this.request.headers.entries().map {
+            "${it.key}:${it.value} "
+        }
+        securelog.info { "Fant ikke header Nav-Call-Id for kall til ${this.request.uri}, eksisterende headere er $headerStr" }
+    }
+}
 
 
 private val PipelineContext<Unit, ApplicationCall>.accessToken
