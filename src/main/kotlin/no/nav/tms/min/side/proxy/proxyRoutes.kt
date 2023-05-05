@@ -87,8 +87,8 @@ fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
 private fun ApplicationCall.navCallId() = request.headers["Nav-Call-Id"].also {
     if (it == null) {
         log.info { "Fant ikke header Nav-Call-Id for kall til ${this.request.uri}" }
-        val headerStr = this.request.headers.entries().map {
-            "${it.key}:${it.value} "
+        val headerStr = this.request.headers.entries().map { headers ->
+            "${headers.key}:${headers.value} "
         }
         securelog.info { "Fant ikke header Nav-Call-Id for kall til ${this.request.uri}, eksisterende headere er $headerStr" }
     }

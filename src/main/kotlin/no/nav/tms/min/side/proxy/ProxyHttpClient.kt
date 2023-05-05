@@ -99,7 +99,7 @@ class ProxyHttpClient(
 
     private fun HttpResponse.responseIfOk() =
         if (!status.isSuccess()) {
-            throw RequestExcpetion(request.url.toString(), status)
+            throw RequestExcpetion(request.url.toString(), status, request.headers["Nav-Call-Id"])
         } else {
             this
         }
@@ -115,7 +115,7 @@ class ProxyHttpClient(
                 url(url)
                 method = HttpMethod.Post
                 header(HttpHeaders.Authorization, "Bearer $accessToken")
-                extraHeaders?.forEach{
+                extraHeaders?.forEach {
                     header(it.key, it.value)
                 }
                 contentType(ContentType.Application.Json)
@@ -134,8 +134,8 @@ data class LoginPostBody(val ident: String)
 class TokendingsException(targetapp: String, val accessToken: String, originalException: Exception) :
     Exception("Feil i exchange mot tokendings for $targetapp: ${originalException.message}")
 
-class RequestExcpetion(url: String, status: HttpStatusCode) : Exception(
-    "proxy kall feilet mot $url med status $status "
+class RequestExcpetion(url: String, status: HttpStatusCode, navCallId: String? = null) : Exception(
+    "proxy kall feilet mot $url med status $status ${navCallId?.let { "og callid: $it" }}"
 ) {
     val responseCode =
         if (status == HttpStatusCode.NotFound) HttpStatusCode.NotFound else HttpStatusCode.ServiceUnavailable
