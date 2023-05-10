@@ -120,5 +120,5 @@ spec:
     - name: SYFO_MOTEBEHOV_URL
       value: https://syfomotebehov.dev-fss-pub.nais.io
     - name: SYFO_MOTEBEHOV_CLIENT_ID
-      value: def-fss:team-esyfo:syfomotebehov
+      value: dev-fss:team-esyfo:syfomotebehov
 
