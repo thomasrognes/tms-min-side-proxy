@@ -44,6 +44,8 @@ data class AppConfiguration(
     private val oppfolgingBaseUrl: String = StringEnvVar.getEnvVar("OPPFOLGING_API_URL"),
     private val aiaClientId: String = StringEnvVar.getEnvVar("AIA_CLIENT_ID"),
     private val aiaBaseUrl: String = StringEnvVar.getEnvVar("AIA_API_URL"),
+    private val motebehovCLientId: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_CLIENT_ID"),
+    private val moteBehovBaseUrl: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_URL")
 ) {
     private val httpClient = HttpClient(Apache.create()) {
         install(ContentNegotiation) {
@@ -86,6 +88,8 @@ data class AppConfiguration(
         sykDialogmoteClientId = sykDialogmoteClientId,
         aiaBaseUrl = aiaBaseUrl,
         aiaClientId = aiaClientId,
+        motebehovClientId = motebehovCLientId,
+        motebehovBaseUrl = moteBehovBaseUrl
     )
 }
 

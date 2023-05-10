@@ -60,9 +60,15 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
         val response = contentFetcher.getOppfolgingContent(accessToken, "api/niva3/underoppfolging")
         call.respond(response.status, response.readBytes())
     }
+
     post("/statistikk/innlogging") {
         contentFetcher.postInnloggingStatistikk(ident)
         call.respond(HttpStatusCode.OK)
+    }
+
+    get("/motebehov/{proxyPath...}") {
+        val response = externalContentFetcher.getMoteBehovContent(accessToken, proxyPath)
+        call.respond(response.status, response.readBytes())
     }
 }
 

@@ -170,7 +170,9 @@ class PostRoutesTest {
         sykDialogmoteBaseUrl = "",
         sykDialogmoteClientId = "",
         aiaBaseUrl = testParametersMap.getParameters("aia").baseUrl,
-        aiaClientId = "aia"
+        aiaClientId = "aia",
+        motebehovClientId = "",
+        motebehovBaseUrl = ""
     )
 
     private fun contentFecther(proxyHttpClient: ProxyHttpClient) = ContentFetcher(

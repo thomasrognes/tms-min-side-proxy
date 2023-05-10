@@ -47,6 +47,7 @@ spec:
     outbound:
       external:
         - host: https://veilarboppfolging.prod-fss-pub.nais.io
+        - host: syfomotebehov.prod-fss-pub.nais.io
       rules:
         - application: tms-utkast
         - application: dittnav-event-aggregator
@@ -115,3 +116,7 @@ spec:
       value: http://aia-backend.paw
     - name: AIA_CLIENT_ID
       value: prod-gcp:paw:aia-backend
+    - name: SYFO_MOTEBEHOV_URL
+      value: https://syfomotebehov.prod-fss-pub.nais.io
+    - name: SYFO_MOTEBEHOV_CLIENT_ID
+      value: prod-fss:team-esyfo:syfomotebehov
