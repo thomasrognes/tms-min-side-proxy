@@ -36,12 +36,13 @@ class GetRoutesTest {
                     "fraOgMed" to "2020-01-01",
                     "listeparameter" to "[101404,7267261]"
                 )
-            )
+            ),
+            "motebehov" to TestParameters("http://motebehov.test"),
         )
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["aap", "utkast", "personalia", "meldekort", "selector", "varsel", "syk/dialogmote", "aia"])
+    @ValueSource(strings = ["aap", "utkast", "personalia", "meldekort", "selector", "varsel", "syk/dialogmote", "aia", "motebehov"])
     fun `proxy get api`(tjenestePath: String) = testApplication {
         val applicationhttpClient = testApplicationHttpClient()
         val proxyHttpClient = ProxyHttpClient(applicationhttpClient, tokendigsMock, azureMock)
@@ -184,6 +185,8 @@ class GetRoutesTest {
         sykDialogmoteClientId = "sykdialogmote",
         aiaBaseUrl = testParametersMap.getParameters("aia").baseUrl,
         aiaClientId = "aia",
+        motebehovBaseUrl = testParametersMap.getParameters("motebehov").baseUrl,
+        motebehovClientId = "motebehov"
     )
 }
 

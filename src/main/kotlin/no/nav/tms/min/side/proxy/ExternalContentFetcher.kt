@@ -12,7 +12,9 @@ class ExternalContentFetcher(
     private val sykDialogmoteBaseUrl: String,
     private val sykDialogmoteClientId: String,
     private val aiaBaseUrl: String,
-    private val aiaClientId: String
+    private val aiaClientId: String,
+    private val motebehovClientId: String,
+    private val motebehovBaseUrl: String
 ) {
     suspend fun getAapContent(token: String, proxyPath: String?): HttpResponse =
         proxyHttpClient.getContent(
@@ -61,5 +63,13 @@ class ExternalContentFetcher(
             accessToken = accessToken,
             targetAppId = aiaClientId,
             extraHeaders = callId?.let { mapOf("Nav-Call-Id" to callId) }
+        )
+
+    suspend fun getMoteBehovContent(token: String, proxyPath: String?) =
+        proxyHttpClient.getContent(
+            userToken = token,
+            targetAppId = motebehovClientId,
+            baseUrl = motebehovBaseUrl,
+            proxyPath = proxyPath
         )
 }
