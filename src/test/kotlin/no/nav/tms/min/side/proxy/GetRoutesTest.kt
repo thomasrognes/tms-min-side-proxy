@@ -42,7 +42,7 @@ class GetRoutesTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["aap", "utkast", "personalia", "meldekort", "selector", "varsel", "syk/dialogmote", "aia"])
+    @ValueSource(strings = ["aap", "utkast", "personalia", "meldekort", "selector", "varsel", "syk/dialogmote", "aia", "motebehov"])
     fun `proxy get api`(tjenestePath: String) = testApplication {
         val applicationhttpClient = testApplicationHttpClient()
         val proxyHttpClient = ProxyHttpClient(applicationhttpClient, tokendigsMock, azureMock)
