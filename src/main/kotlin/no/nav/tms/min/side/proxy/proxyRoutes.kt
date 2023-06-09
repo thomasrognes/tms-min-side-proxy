@@ -18,11 +18,11 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
 
     get("/aap/{proxyPath...}") {
         val response = externalContentFetcher.getAapContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
     get("syk/dialogmote/{proxyPath...}") {
         val response = externalContentFetcher.getSykDialogmoteContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     post("/eventaggregator/{proxyPath...}") {
@@ -33,32 +33,32 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
 
     get("/utkast/{proxyPath...}") {
         val response = contentFetcher.getUtkastContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     get("/personalia/{proxyPath...}") {
         val response = contentFetcher.getPersonaliaContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     get("/meldekort/{proxyPath...}") {
         val response = externalContentFetcher.getMeldekortContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     get("/selector/{proxyPath...}") {
         val response = contentFetcher.getProfilContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     get("/varsel/{proxyPath...}") {
         val response = contentFetcher.getVarselContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     get("/oppfolging") {
         val response = contentFetcher.getOppfolgingContent(accessToken, "api/niva3/underoppfolging")
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     post("/statistikk/innlogging") {
@@ -68,14 +68,14 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
 
     get("/motebehov/{proxyPath...}") {
         val response = externalContentFetcher.getMoteBehovContent(accessToken, proxyPath)
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 }
 
 fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
     get("/aia/{proxyPath...}") {
         val response = externalContentFetcher.getAiaContent(accessToken, "$proxyPath$queryParameters", call.navCallId())
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
     post("/aia/{proxyPath...}") {
@@ -86,7 +86,7 @@ fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
             content,
             call.navCallId(),
         )
-        call.respond(response.status, response.readBytes())
+        call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 }
 

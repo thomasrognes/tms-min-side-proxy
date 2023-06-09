@@ -116,6 +116,7 @@ class PostRoutesTest {
 
         client.authenticatedPost(urlString = "/$tjenestePath/destination", extraheaders = parameters.headers).assert {
             status shouldBe HttpStatusCode.OK
+            headers["Content-Type"] shouldBe "application/json"
             bodyAsText() shouldBe expectedBody
         }
         client.authenticatedPost("/$tjenestePath/nested/destination", extraheaders = parameters.headers).assert {
