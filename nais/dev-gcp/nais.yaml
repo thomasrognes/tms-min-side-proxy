@@ -47,7 +47,7 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: https://veilarboppfolging.dev-fss-pub.nais.io
+        - host: veilarboppfolging.dev-fss-pub.nais.io
         - host: syfomotebehov.dev-fss-pub.nais.io
       rules:
         - application: tms-utkast
