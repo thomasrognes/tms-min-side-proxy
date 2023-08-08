@@ -18,7 +18,7 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.mockk.coEvery
 import io.mockk.mockk
 import no.nav.tms.token.support.azure.exchange.AzureService
-import no.nav.tms.token.support.idporten.sidecar.mock.SecurityLevel
+import no.nav.tms.token.support.idporten.sidecar.mock.LevelOfAssurance
 import no.nav.tms.token.support.idporten.sidecar.mock.installIdPortenAuthMock
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 import java.lang.IllegalArgumentException
@@ -32,7 +32,7 @@ internal fun ApplicationTestBuilder.mockApi(
     corsAllowedSchemes: String = "https",
     contentFetcher: ContentFetcher,
     externalContentFetcher: ExternalContentFetcher,
-    securityLevel: SecurityLevel = SecurityLevel.LEVEL_4
+    levelOfAssurance: LevelOfAssurance = LevelOfAssurance.LEVEL_4
 ) = application {
     proxyApi(
         corsAllowedOrigins = corsAllowedOrigins,
@@ -43,7 +43,7 @@ internal fun ApplicationTestBuilder.mockApi(
             installIdPortenAuthMock {
                 alwaysAuthenticated = true
                 setAsDefault = true
-                staticSecurityLevel = securityLevel
+                staticLevelOfAssurance = levelOfAssurance
                 staticUserPid = "12345"
             }
         }

@@ -9,7 +9,7 @@ import io.ktor.server.routing.*
 import io.ktor.util.flattenForEach
 import io.ktor.util.pipeline.*
 import io.ktor.util.toMap
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 
 private val log = KotlinLogging.logger {}

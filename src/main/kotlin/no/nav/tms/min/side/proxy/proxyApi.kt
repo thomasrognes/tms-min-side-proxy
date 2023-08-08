@@ -8,7 +8,6 @@ import io.ktor.server.application.ApplicationStopping
 import io.ktor.server.application.call
 import io.ktor.server.application.install
 import io.ktor.server.auth.*
-import io.ktor.server.metrics.micrometer.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.defaultheaders.*
@@ -18,9 +17,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import nav.no.tms.common.metrics.installTmsMicrometerMetrics
-import no.nav.tms.token.support.idporten.sidecar.LoginLevel.LEVEL_3
+import no.nav.tms.token.support.idporten.sidecar.LevelOfAssurance.SUBSTANTIAL
 import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
 
 private val log = KotlinLogging.logger {}
@@ -33,7 +32,7 @@ fun Application.proxyApi(
     idportenAuthInstaller: Application.() -> Unit = {
         installIdPortenAuth {
             setAsDefault = true
-            loginLevel = LEVEL_3
+            levelOfAssurance = SUBSTANTIAL
         }
     }
 ) {
