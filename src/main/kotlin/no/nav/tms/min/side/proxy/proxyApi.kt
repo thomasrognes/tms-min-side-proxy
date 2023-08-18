@@ -1,6 +1,5 @@
 package no.nav.tms.min.side.proxy
 
-
 import io.getunleash.Unleash
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -19,6 +18,8 @@ import io.ktor.server.routing.*
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import nav.no.tms.common.metrics.installTmsMicrometerMetrics
 import no.nav.tms.token.support.idporten.sidecar.LevelOfAssurance.SUBSTANTIAL
 import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
@@ -54,13 +55,16 @@ fun Application.proxyApi(
                     }
                     call.respond(HttpStatusCode.ServiceUnavailable)
                 }
+
                 is MissingHeaderException -> {
-                   call.respond(HttpStatusCode.BadRequest)
+                    call.respond(HttpStatusCode.BadRequest)
                 }
+
                 is RequestExcpetion -> {
                     call.respond(cause.responseCode)
 
                 }
+
                 else -> {
                     securelog.error { cause.stackTraceToString() }
                     call.respond(HttpStatusCode.InternalServerError)
@@ -91,15 +95,17 @@ fun Application.proxyApi(
     routing {
         metaRoutes(collectorRegistry)
         authenticate {
-            get("authPing"){
+            get("authPing") {
                 call.respond(HttpStatusCode.OK)
             }
             proxyRoutes(contentFetcher, externalContentFetcher)
             aiaRoutes(externalContentFetcher)
             get("featuretoggles") {
-                call.respond(unleash.more().evaluateAllToggles().map {
-                    FeatureToggle(name = it.name, enabled = it.isEnabled)
-                })
+                call.respond(JsonObject(
+                    unleash.more().evaluateAllToggles().associate {
+                        it.name to JsonPrimitive(it.isEnabled)
+                    }
+                ))
             }
         }
     }

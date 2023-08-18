@@ -2,7 +2,6 @@ package no.nav.tms.min.side.proxy
 
 import io.getunleash.DefaultUnleash
 import io.getunleash.util.UnleashConfig
-import kotlinx.serialization.Serializable
 
 fun setupUnleash(unleashApiUrl: String, unleashApiKey: String, unleashEnvironment: String): DefaultUnleash {
     val appName = "tms-min-side-proxy"
@@ -15,9 +14,3 @@ fun setupUnleash(unleashApiUrl: String, unleashApiKey: String, unleashEnvironmen
         .build()
     return DefaultUnleash(config)
 }
-
-@Serializable
-data class FeatureToggle(
-    val name: String,
-    val enabled: Boolean
-)

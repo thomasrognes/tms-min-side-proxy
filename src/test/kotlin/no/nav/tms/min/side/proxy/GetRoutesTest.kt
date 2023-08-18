@@ -165,7 +165,10 @@ class GetRoutesTest {
             unleash = unleash
         )
 
-        client.get("/featuretoggles").status shouldBe HttpStatusCode.OK
+        client.get("/featuretoggles").assert {
+            status shouldBe HttpStatusCode.OK
+            bodyAsText() shouldBe """{"testtoggle":true}"""
+        }
     }
 
     @Test
