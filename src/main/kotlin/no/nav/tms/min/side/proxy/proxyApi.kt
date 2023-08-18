@@ -94,10 +94,12 @@ fun Application.proxyApi(
             get("authPing"){
                 call.respond(HttpStatusCode.OK)
             }
-            proxyRoutes(contentFetcher,externalContentFetcher)
+            proxyRoutes(contentFetcher, externalContentFetcher)
             aiaRoutes(externalContentFetcher)
             get("featuretoggles") {
-                call.respond(unleash.more().evaluateAllToggles())
+                call.respond(unleash.more().evaluateAllToggles().map {
+                    FeatureToggle(name = it.name, enabled = it.isEnabled)
+                })
             }
         }
     }

@@ -1,5 +1,6 @@
 package no.nav.tms.min.side.proxy
 
+import io.getunleash.FakeUnleash
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -149,6 +150,22 @@ class GetRoutesTest {
         client.get("/internal/isAlive").status shouldBe HttpStatusCode.OK
         client.get("/internal/isReady").status shouldBe HttpStatusCode.OK
         client.get("/internal/ping").status shouldBe HttpStatusCode.OK
+    }
+
+    @Test
+    fun featuretoggleApiTest() = testApplication {
+        val applicationhttpClient = testApplicationHttpClient()
+        val proxyHttpClient = ProxyHttpClient(applicationhttpClient, tokendigsMock, azureMock)
+        val unleash = FakeUnleash()
+        unleash.enable("testtoggle")
+
+        mockApi(
+            contentFetcher = contentFecther(proxyHttpClient),
+            externalContentFetcher = externalContentFetcher(proxyHttpClient),
+            unleash = unleash
+        )
+
+        client.get("/featuretoggles").status shouldBe HttpStatusCode.OK
     }
 
     @Test
