@@ -1,6 +1,7 @@
 package no.nav.tms.min.side.proxy
 
 
+import io.getunleash.Unleash
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.Application
@@ -34,7 +35,8 @@ fun Application.proxyApi(
             setAsDefault = true
             levelOfAssurance = SUBSTANTIAL
         }
-    }
+    },
+    unleash: Unleash = setupUnleash(environment)
 ) {
     val collectorRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
 
@@ -94,6 +96,9 @@ fun Application.proxyApi(
             }
             proxyRoutes(contentFetcher,externalContentFetcher)
             aiaRoutes(externalContentFetcher)
+            get("featuretoggles") {
+                call.respond(unleash.more().evaluateAllToggles())
+            }
         }
     }
 

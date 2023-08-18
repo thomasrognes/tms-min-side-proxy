@@ -1,5 +1,6 @@
 package no.nav.tms.min.side.proxy
 
+import io.getunleash.FakeUnleash
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as clientContentNegotiation
@@ -46,7 +47,8 @@ internal fun ApplicationTestBuilder.mockApi(
                 staticLevelOfAssurance = levelOfAssurance
                 staticUserPid = "12345"
             }
-        }
+        },
+        unleash = FakeUnleash()
     )
 }
 

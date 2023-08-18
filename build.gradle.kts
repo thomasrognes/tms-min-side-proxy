@@ -48,6 +48,7 @@ dependencies {
     implementation(Prometheus.hotspot)
     implementation(Prometheus.logback)
     implementation(TmsCommonLib.commonLib)
+    implementation("io.getunleash:unleash-client-java:8.2.1")
 
     testImplementation(Junit.api)
     testImplementation(Ktor.Test.clientMock)
