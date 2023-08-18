@@ -1,12 +1,15 @@
 package no.nav.tms.min.side.proxy
 
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.engine.ApplicationEngineEnvironmentBuilder
+import io.ktor.server.engine.applicationEngineEnvironment
+import io.ktor.server.engine.connector
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import kotlinx.serialization.json.Json
 import no.nav.personbruker.dittnav.common.util.config.StringEnvVar
 import no.nav.tms.token.support.azure.exchange.AzureServiceBuilder
@@ -45,7 +48,11 @@ data class AppConfiguration(
     private val aiaClientId: String = StringEnvVar.getEnvVar("AIA_CLIENT_ID"),
     private val aiaBaseUrl: String = StringEnvVar.getEnvVar("AIA_API_URL"),
     private val motebehovCLientId: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_CLIENT_ID"),
-    private val moteBehovBaseUrl: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_URL")
+    private val moteBehovBaseUrl: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_URL"),
+
+    val unleashEnvironment: String = StringEnvVar.getEnvVar("UNLEASH_ENVIRONMENT"),
+    val unleashServerApiUrl: String = StringEnvVar.getEnvVar("UNLEASH_SERVER_API_URL"),
+    val unleashServerApiToken: String = StringEnvVar.getEnvVar("UNLEASH_SERVER_API_TOKEN"),
 ) {
     private val httpClient = HttpClient(Apache.create()) {
         install(ContentNegotiation) {
@@ -107,7 +114,12 @@ fun ApplicationEngineEnvironmentBuilder.envConfig(appConfig: AppConfiguration) {
             corsAllowedOrigins = appConfig.corsAllowedOrigins,
             corsAllowedSchemes = appConfig.corsAllowedSchemes,
             contentFetcher = appConfig.contentFecther,
-            externalContentFetcher = appConfig.externalContentFetcher
+            externalContentFetcher = appConfig.externalContentFetcher,
+            unleash = setupUnleash(
+                unleashApiUrl = appConfig.unleashServerApiUrl,
+                unleashApiKey = appConfig.unleashServerApiToken,
+                unleashEnvironment = appConfig.unleashEnvironment
+            )
         )
     }
     connector {

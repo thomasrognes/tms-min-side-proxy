@@ -36,7 +36,7 @@ fun Application.proxyApi(
             levelOfAssurance = SUBSTANTIAL
         }
     },
-    unleash: Unleash = setupUnleash(environment)
+    unleash: Unleash
 ) {
     val collectorRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
 
