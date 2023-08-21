@@ -48,6 +48,7 @@ spec:
       external:
         - host: veilarboppfolging.prod-fss-pub.nais.io
         - host: syfomotebehov.prod-fss-pub.nais.io
+        - host: min-side-unleash-api.nav.cloud.nais.io
       rules:
         - application: tms-utkast
         - application: dittnav-event-aggregator
@@ -120,3 +121,21 @@ spec:
       value: https://syfomotebehov.prod-fss-pub.nais.io
     - name: SYFO_MOTEBEHOV_CLIENT_ID
       value: prod-fss:team-esyfo:syfomotebehov
+    - name: UNLEASH_ENVIRONMENT
+      value: production
+  envFrom:
+    - secret: tms-min-side-proxy-unleash-api-token
+
+---
+apiVersion: unleash.nais.io/v1
+kind: ApiToken
+metadata:
+  name: tms-min-side-proxy
+  namespace: min-side
+spec:
+  unleashInstance:
+    apiVersion: unleash.nais.io/v1
+    kind: RemoteUnleash
+    name: min-side
+  secretName: tms-min-side-proxy-unleash-api-token
+  environment: production

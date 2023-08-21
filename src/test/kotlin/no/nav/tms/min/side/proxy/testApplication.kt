@@ -1,5 +1,7 @@
 package no.nav.tms.min.side.proxy
 
+import io.getunleash.FakeUnleash
+import io.getunleash.Unleash
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as clientContentNegotiation
@@ -32,7 +34,8 @@ internal fun ApplicationTestBuilder.mockApi(
     corsAllowedSchemes: String = "https",
     contentFetcher: ContentFetcher,
     externalContentFetcher: ExternalContentFetcher,
-    levelOfAssurance: LevelOfAssurance = LevelOfAssurance.LEVEL_4
+    levelOfAssurance: LevelOfAssurance = LevelOfAssurance.LEVEL_4,
+    unleash: Unleash = FakeUnleash()
 ) = application {
     proxyApi(
         corsAllowedOrigins = corsAllowedOrigins,
@@ -46,7 +49,8 @@ internal fun ApplicationTestBuilder.mockApi(
                 staticLevelOfAssurance = levelOfAssurance
                 staticUserPid = "12345"
             }
-        }
+        },
+        unleash = unleash
     )
 }
 
