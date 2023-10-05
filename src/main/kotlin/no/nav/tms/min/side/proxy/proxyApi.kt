@@ -21,6 +21,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import nav.no.tms.common.metrics.installTmsMicrometerMetrics
+import no.nav.tms.token.support.idporten.sidecar.IdPortenLogin
 import no.nav.tms.token.support.idporten.sidecar.LevelOfAssurance.SUBSTANTIAL
 import no.nav.tms.token.support.idporten.sidecar.idPorten
 
@@ -38,6 +39,7 @@ fun Application.proxyApi(
                 levelOfAssurance = SUBSTANTIAL
             }
         }
+        install(IdPortenLogin)
     },
     unleash: Unleash
 ) {
