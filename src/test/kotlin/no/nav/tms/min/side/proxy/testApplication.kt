@@ -15,13 +15,14 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.ApplicationCall
+import io.ktor.server.auth.*
 import io.ktor.server.response.respondBytes
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.mockk.coEvery
 import io.mockk.mockk
 import no.nav.tms.token.support.azure.exchange.AzureService
 import no.nav.tms.token.support.idporten.sidecar.mock.LevelOfAssurance
-import no.nav.tms.token.support.idporten.sidecar.mock.installIdPortenAuthMock
+import no.nav.tms.token.support.idporten.sidecar.mock.idPortenMock
 import no.nav.tms.token.support.tokendings.exchange.TokendingsService
 import java.lang.IllegalArgumentException
 
@@ -43,11 +44,13 @@ internal fun ApplicationTestBuilder.mockApi(
         contentFetcher = contentFetcher,
         externalContentFetcher = externalContentFetcher,
         idportenAuthInstaller = {
-            installIdPortenAuthMock {
-                alwaysAuthenticated = true
-                setAsDefault = true
-                staticLevelOfAssurance = levelOfAssurance
-                staticUserPid = "12345"
+            authentication {
+                idPortenMock {
+                    alwaysAuthenticated = true
+                    setAsDefault = true
+                    staticLevelOfAssurance = levelOfAssurance
+                    staticUserPid = "12345"
+                }
             }
         },
         unleash = unleash
