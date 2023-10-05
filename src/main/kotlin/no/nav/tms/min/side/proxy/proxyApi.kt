@@ -22,7 +22,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import nav.no.tms.common.metrics.installTmsMicrometerMetrics
 import no.nav.tms.token.support.idporten.sidecar.LevelOfAssurance.SUBSTANTIAL
-import no.nav.tms.token.support.idporten.sidecar.installIdPortenAuth
+import no.nav.tms.token.support.idporten.sidecar.idPorten
 
 private val log = KotlinLogging.logger {}
 private val securelog = KotlinLogging.logger("secureLog")
@@ -32,9 +32,11 @@ fun Application.proxyApi(
     contentFetcher: ContentFetcher,
     externalContentFetcher: ExternalContentFetcher,
     idportenAuthInstaller: Application.() -> Unit = {
-        installIdPortenAuth {
-            setAsDefault = true
-            levelOfAssurance = SUBSTANTIAL
+        authentication {
+            idPorten {
+                setAsDefault = true
+                levelOfAssurance = SUBSTANTIAL
+            }
         }
     },
     unleash: Unleash
