@@ -29,6 +29,7 @@ class NavnRoutesTest {
 
     private val pdlClientId = "pdl"
     private val pdlApiUrl = "http://pdl/graphql"
+    private val pdlBehandlingsnummer = "B000"
 
     private val token = "<token>"
 
@@ -56,6 +57,7 @@ class NavnRoutesTest {
                 routing {
                     post("/graphql") {
                         call.request.header(HttpHeaders.Authorization) shouldContain token
+                        call.request.header("Behandlingsnummer") shouldBe pdlBehandlingsnummer
                         call.respondRawJson(validResponse(fornavn, mellomnavn, etternavn))
                     }
                 }
@@ -90,6 +92,7 @@ class NavnRoutesTest {
                 routing {
                     post("/graphql") {
                         call.request.header(HttpHeaders.Authorization) shouldContain token
+                        call.request.header("Behandlingsnummer") shouldBe pdlBehandlingsnummer
                         call.respondRawJson(validResponse(fornavn, null, etternavn))
                     }
                 }
@@ -121,6 +124,7 @@ class NavnRoutesTest {
                 routing {
                     post("/graphql") {
                         call.request.header(HttpHeaders.Authorization) shouldContain token
+                        call.request.header("Behandlingsnummer") shouldBe pdlBehandlingsnummer
                         call.respondRawJson(responseWithError())
                     }
                 }
@@ -149,6 +153,7 @@ class NavnRoutesTest {
                 routing {
                     post("/graphql") {
                         call.request.header(HttpHeaders.Authorization) shouldContain token
+                        call.request.header("Behandlingsnummer") shouldBe pdlBehandlingsnummer
                         call.respondRawJson(responseWithoutData())
                     }
                 }
@@ -177,6 +182,7 @@ class NavnRoutesTest {
                 routing {
                     post("/graphql") {
                         call.request.header(HttpHeaders.Authorization) shouldContain token
+                        call.request.header("Behandlingsnummer") shouldBe pdlBehandlingsnummer
                         call.respondRawJson(responseWithError())
                     }
                 }
@@ -212,6 +218,7 @@ class NavnRoutesTest {
                 routing {
                     post("/graphql") {
                         call.request.header(HttpHeaders.Authorization) shouldContain token
+                        call.request.header("Behandlingsnummer") shouldBe pdlBehandlingsnummer
                         call.respondRawJson(validResponse(fornavn, mellomnavn, etternavn))
                     }
                 }
@@ -276,6 +283,7 @@ class NavnRoutesTest {
         },
         pdlUrl = pdlApiUrl,
         pdlClientId = pdlClientId,
+        pdlBehandlingsnummer = pdlBehandlingsnummer,
         tokendingsService = tokendingsService
     )
 

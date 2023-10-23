@@ -116,6 +116,8 @@ spec:
       value: "https://pdl-api.dev-fss-pub.nais.io/graphql"
     - name: PDL_API_CLIENT_ID
       value: "dev-fss:pdl:pdl-api"
+    - name: PDL_BEHANDLINGSNUMMER
+      value: "B328"
   envFrom:
     - secret: tms-min-side-proxy-unleash-api-token
 
