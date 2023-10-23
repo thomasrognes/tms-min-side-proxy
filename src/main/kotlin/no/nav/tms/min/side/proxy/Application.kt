@@ -49,6 +49,7 @@ data class AppConfiguration(
     private val moteBehovBaseUrl: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_URL"),
     private val pdlApiClientId: String = StringEnvVar.getEnvVar("PDL_API_CLIENT_ID"),
     private val pdlApiUrl: String = StringEnvVar.getEnvVar("PDL_API_URL"),
+    private val pdlBehandlingsnummer: String = StringEnvVar.getEnvVar("PDL_BEHANDLINGSNUMMER"),
 
     val unleashEnvironment: String = StringEnvVar.getEnvVar("UNLEASH_ENVIRONMENT"),
     val unleashServerApiUrl: String = StringEnvVar.getEnvVar("UNLEASH_SERVER_API_URL"),
@@ -101,6 +102,7 @@ data class AppConfiguration(
         httpClient,
         pdlApiUrl,
         pdlApiClientId,
+        pdlBehandlingsnummer,
         tokendingsService
     )
 }

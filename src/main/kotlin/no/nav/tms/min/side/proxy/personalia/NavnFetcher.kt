@@ -16,6 +16,7 @@ class NavnFetcher(
     private val client: HttpClient,
     private val pdlUrl: String,
     private val pdlClientId: String,
+    private val pdlBehandlingsnummer: String,
     private val tokendingsService: TokendingsService
 ) {
 
@@ -44,6 +45,7 @@ class NavnFetcher(
         val response = client.post {
             url(pdlUrl)
             header(HttpHeaders.Authorization, "Bearer $token")
+            header("Behandlingsnummer", pdlBehandlingsnummer)
             header("Tema", "GEN")
             contentType(ContentType.Application.Json)
             setBody(HentNavn(ident))
