@@ -126,15 +126,6 @@ val azureMock = mockk<AzureService>().apply {
     coEvery { getAccessToken(any()) } returns "<azuretoken>"
 }
 
-fun checkJson(receiveText: String) {
-    if (receiveText == "") throw AssertionError("Post kall har ikke sendt med body")
-    try {
-        jacksonObjectMapper().readTree(receiveText)
-    } catch (_: Exception) {
-        throw AssertionError("Post kall har sendt ugyldig json:\n$receiveText ")
-    }
-}
-
 data class TestParameters(
     val baseUrl: String,
     val headers: Map<String, String>? = null,

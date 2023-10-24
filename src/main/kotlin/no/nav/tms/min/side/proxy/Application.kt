@@ -39,14 +39,10 @@ data class AppConfiguration(
     private val selectorBaseUrl: String = StringEnvVar.getEnvVar("SELCTOR_BASE_URL"),
     private val statistikkClientId: String = StringEnvVar.getEnvVar("STATISTIKK_CLIENT_ID"),
     private val statistikkBaseUrl: String = StringEnvVar.getEnvVar("STATISTIKK_BASE_URL"),
-    private val sykDialogmoteBaseUrl: String = StringEnvVar.getEnvVar("SYK_DIALOGMOTE_BASE_URL"),
-    private val sykDialogmoteClientId: String = StringEnvVar.getEnvVar("SYK_DIALOGMOTE_CLIENT_ID"),
     private val oppfolgingClientId: String = StringEnvVar.getEnvVar("OPPFOLGING_CLIENT_ID"),
     private val oppfolgingBaseUrl: String = StringEnvVar.getEnvVar("OPPFOLGING_API_URL"),
     private val aiaClientId: String = StringEnvVar.getEnvVar("AIA_CLIENT_ID"),
     private val aiaBaseUrl: String = StringEnvVar.getEnvVar("AIA_API_URL"),
-    private val motebehovCLientId: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_CLIENT_ID"),
-    private val moteBehovBaseUrl: String = StringEnvVar.getEnvVar("SYFO_MOTEBEHOV_URL"),
     private val pdlApiClientId: String = StringEnvVar.getEnvVar("PDL_API_CLIENT_ID"),
     private val pdlApiUrl: String = StringEnvVar.getEnvVar("PDL_API_URL"),
     private val pdlBehandlingsnummer: String = StringEnvVar.getEnvVar("PDL_BEHANDLINGSNUMMER"),
@@ -90,12 +86,8 @@ data class AppConfiguration(
         aapBaseUrl = aapBaseUrl,
         meldekortClientId = meldekortClientId,
         meldekortBaseUrl = meldekortBaseUrl,
-        sykDialogmoteBaseUrl = sykDialogmoteBaseUrl,
-        sykDialogmoteClientId = sykDialogmoteClientId,
         aiaBaseUrl = aiaBaseUrl,
-        aiaClientId = aiaClientId,
-        motebehovClientId = motebehovCLientId,
-        motebehovBaseUrl = moteBehovBaseUrl
+        aiaClientId = aiaClientId
     )
 
     val navnFetcher = NavnFetcher(

@@ -98,10 +98,6 @@ spec:
       value: http://tms-utkast
     - name: UTKAST_CLIENT_ID
       value: prod-gcp:min-side:tms-utkast
-    - name: SYK_DIALOGMOTE_BASE_URL
-      value: http://isdialogmote.teamsykefravr
-    - name: SYK_DIALOGMOTE_CLIENT_ID
-      value: prod-gcp:teamsykefravr:isdialogmote
     - name: OPPFOLGING_API_URL
       value: https://veilarboppfolging.prod-fss-pub.nais.io/veilarboppfolging
     - name: OPPFOLGING_CLIENT_ID
@@ -110,10 +106,6 @@ spec:
       value: http://aia-backend.paw
     - name: AIA_CLIENT_ID
       value: prod-gcp:paw:aia-backend
-    - name: SYFO_MOTEBEHOV_URL
-      value: https://syfomotebehov.prod-fss-pub.nais.io
-    - name: SYFO_MOTEBEHOV_CLIENT_ID
-      value: prod-fss:team-esyfo:syfomotebehov
     - name: UNLEASH_ENVIRONMENT
       value: production
     - name: PDL_API_URL
