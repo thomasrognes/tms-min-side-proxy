@@ -1,17 +1,13 @@
 package no.nav.tms.min.side.proxy
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.flattenForEach
 import io.ktor.util.pipeline.*
-import io.ktor.util.toMap
 import io.github.oshai.kotlinlogging.KotlinLogging
-import io.ktor.utils.io.*
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 
 private val log = KotlinLogging.logger {}
@@ -20,10 +16,6 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
 
     get("/aap/{proxyPath...}") {
         val response = externalContentFetcher.getAapContent(accessToken, proxyPath)
-        call.respondBytes(response.readBytes(), response.contentType(), response.status)
-    }
-    get("syk/dialogmote/{proxyPath...}") {
-        val response = externalContentFetcher.getSykDialogmoteContent(accessToken, proxyPath)
         call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 
@@ -51,27 +43,11 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
         contentFetcher.postInnloggingStatistikk(ident)
         call.respond(HttpStatusCode.OK)
     }
-
-    get("/motebehov/{proxyPath...}") {
-        val response = externalContentFetcher.getMoteBehovContent(accessToken, proxyPath)
-        call.respondBytes(response.readBytes(), response.contentType(), response.status)
-    }
 }
 
 fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
     get("/aia/{proxyPath...}") {
         val response = externalContentFetcher.getAiaContent(accessToken, "$proxyPath$queryParameters", call.navCallId())
-        call.respondBytes(response.readBytes(), response.contentType(), response.status)
-    }
-
-    post("/aia/{proxyPath...}") {
-        val content = call.receive<ByteArray>()
-        val response = externalContentFetcher.postAiaContent(
-            accessToken,
-            proxyPath,
-            content,
-            call.navCallId(),
-        )
         call.respondBytes(response.readBytes(), response.contentType(), response.status)
     }
 }
