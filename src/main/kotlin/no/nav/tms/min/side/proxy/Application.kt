@@ -14,7 +14,7 @@ import io.ktor.server.engine.applicationEngineEnvironment
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import no.nav.personbruker.dittnav.common.util.config.StringEnvVar
+import no.nav.tms.common.util.config.StringEnvVar
 import no.nav.tms.min.side.proxy.personalia.NavnFetcher
 import no.nav.tms.token.support.azure.exchange.AzureServiceBuilder
 import no.nav.tms.token.support.tokendings.exchange.TokendingsServiceBuilder

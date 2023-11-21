@@ -16,14 +16,18 @@ tasks.withType<KotlinCompile> {
 }
 
 repositories {
-    maven("https://jitpack.io")
-    mavenLocal()
     mavenCentral()
+    maven("https://maven.pkg.github.com/navikt/*") {
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")?: "x-access-token"
+            password = System.getenv("GITHUB_TOKEN")?: project.findProperty("githubPassword") as String
+        }
+    }
+    mavenLocal()
 }
 
 dependencies {
     implementation(Caffeine.caffeine)
-    implementation(DittNAVCommonLib.utils)
     implementation(JacksonDatatype.datatypeJsr310)
     implementation(JacksonDatatype.moduleKotlin)
     implementation(Kotlinx.coroutines)
@@ -49,8 +53,9 @@ dependencies {
     implementation(Prometheus.common)
     implementation(Prometheus.hotspot)
     implementation(Prometheus.logback)
-    implementation(TmsCommonLib.commonLib)
-    implementation("io.getunleash:unleash-client-java:8.2.1")
+    implementation(TmsCommonLib.metrics)
+    implementation(TmsCommonLib.utils)
+    implementation(Unleash.clientJava)
 
     testImplementation(Junit.api)
     testImplementation(Ktor.Test.clientMock)

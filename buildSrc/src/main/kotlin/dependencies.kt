@@ -11,3 +11,10 @@ object Caffeine: DependencyGroup {
 object KotlinTest: KotlinDefaults {
     val junit = dependency("kotlin-test-junit")
 }
+
+object Unleash: DependencyGroup {
+    override val groupId = "io.getunleash"
+    override val version = "8.2.1"
+
+    val clientJava = dependency("unleash-client-java")
+}
