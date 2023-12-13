@@ -8,6 +8,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.tms.token.support.idporten.sidecar.LevelOfAssurance
 import no.nav.tms.token.support.idporten.sidecar.user.IdportenUserFactory
 
 private val log = KotlinLogging.logger {}
@@ -47,8 +48,15 @@ fun Route.proxyRoutes(contentFetcher: ContentFetcher, externalContentFetcher: Ex
 
 fun Route.aiaRoutes(externalContentFetcher: ExternalContentFetcher) {
     get("/aia/{proxyPath...}") {
-        val response = externalContentFetcher.getAiaContent(accessToken, "$proxyPath$queryParameters", call.navCallId())
-        call.respondBytes(response.readBytes(), response.contentType(), response.status)
+        if (levelOfAssurance == LevelOfAssurance.SUBSTANTIAL) {
+            call.respond(HttpStatusCode.Unauthorized)
+        } else {
+            val response =
+                externalContentFetcher.getAiaContent(accessToken, "$proxyPath$queryParameters", call.navCallId())
+            call.respondBytes(response.readBytes(), response.contentType(), response.status)
+        }
+
+
     }
 }
 
@@ -65,6 +73,9 @@ private fun ApplicationCall.navCallId() = request.headers["Nav-Call-Id"].also {
 
 private val PipelineContext<Unit, ApplicationCall>.accessToken
     get() = IdportenUserFactory.createIdportenUser(call).tokenString
+
+private val PipelineContext<Unit, ApplicationCall>.levelOfAssurance
+    get() = IdportenUserFactory.createIdportenUser(call).levelOfAssurance
 
 private val PipelineContext<Unit, ApplicationCall>.ident
     get() = IdportenUserFactory.createIdportenUser(call).ident

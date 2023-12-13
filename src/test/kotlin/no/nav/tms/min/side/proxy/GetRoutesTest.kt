@@ -12,6 +12,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.mockk.mockk
 import no.nav.tms.min.side.proxy.TestParameters.Companion.getParameters
+import no.nav.tms.token.support.idporten.sidecar.mock.LevelOfAssurance
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -175,6 +176,20 @@ class GetRoutesTest {
     fun authPing() = testApplication {
         mockApi(contentFetcher = mockk(), externalContentFetcher = mockk(), navnFetcher = mockk())
         client.get("/authPing").status shouldBe HttpStatusCode.OK
+    }
+
+    @Test
+    fun `Blokker loa-substantial for aia-kall`(){
+        testApplication {
+            mockApi(
+                contentFetcher = mockk(),
+                externalContentFetcher = mockk(),
+                navnFetcher = mockk(),
+                levelOfAssurance = LevelOfAssurance.SUBSTANTIAL
+            )
+
+            client.get("aia/er-arbeidsoker").status shouldBe HttpStatusCode.Unauthorized
+        }
     }
 
     private fun contentFecther(proxyHttpClient: ProxyHttpClient): ContentFetcher = ContentFetcher(
