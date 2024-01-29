@@ -50,17 +50,12 @@ spec:
         - host: pdl-api.dev-fss-pub.nais.io
       rules:
         - application: tms-utkast
-        - application: dittnav-event-aggregator
         - application: tms-statistikk
-        - application: tms-personalia-api
         - application: tms-mikrofrontend-selector
-        - application: tms-varsel-api
         - application: meldekort-api-q2
           namespace: meldekort
         - application: soknad-api
           namespace: aap
-        - application: isdialogmote
-          namespace: teamsykefravr
         - application: veilarboppfolging
           namespace: pto
           cluster: dev-fss
