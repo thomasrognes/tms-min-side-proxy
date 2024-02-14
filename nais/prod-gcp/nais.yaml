@@ -36,7 +36,6 @@ spec:
     - "https://www.nav.no/tms-min-side-proxy"
   resources:
     limits:
-      cpu: "1"
       memory: 768Mi
     requests:
       cpu: "50m"
